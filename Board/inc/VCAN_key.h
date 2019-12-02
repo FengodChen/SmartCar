@@ -39,8 +39,8 @@ typedef enum
     KEY_B,  //Ñ¡Ôñ
 
     KEY_START,  //¿ªÊ¼
-    KEY_STOP,   //Í£Ö¹
-
+ //   KEY_STOP,   //Í£Ö¹
+  
     KEY_MAX,
 } KEY_e;
 

@@ -50,7 +50,7 @@ void adc_init(ADCn_Ch_e adcn_ch)
     default:
         ASSERT(0);
     }
-
+    
     switch(adcn_ch)
     {
     case ADC0_SE8:       // PTB0
@@ -87,9 +87,10 @@ void adc_init(ADCn_Ch_e adcn_ch)
     case ADC0_DP0:
     case ADC0_DP1:
     case ADC0_DP3:
-    case ADC0_DM0:       // ADC0_DM0
-    case ADC0_DM1:       // ADC0_DM1
+//    case ADC0_DM0:       // ADC0_DM0
+//    case ADC0_DM1:       // ADC0_DM1
     case ADC0_SE16:      // ADC0_SE16
+    case ADC0_SE23:      // ADC0_SE16
     case Temp0_Sensor:   // Temperature Sensor,内部温度测量，可用ADC函数
     case VREFH0:         // 参考高电压,可用ADC函数 ,结果恒为 2^n-1
     case VREFL0:         // 参考低电压,可用ADC函数 ,结果恒为 0
@@ -142,9 +143,11 @@ void adc_init(ADCn_Ch_e adcn_ch)
         break;
 
     case ADC1_SE16:      // ADC1_SE16
-    case VREF_OUTPUT:    // VREF Output
-    case ADC1_DM0:       // ADC1_DM0
-    case ADC1_DM1:       // ADC1_DM1
+    case ADC1_SE18:      // ADC1_SE18
+    case ADC1_SE23:      // ADC1_SE18
+//    case VREF_OUTPUT:    // VREF Output
+//    case ADC1_DM0:       // ADC1_DM0
+//    case ADC1_DM1:       // ADC1_DM1
     case Temp1_Sensor:
     case VREFH1:         // 参考高电压,可用ADC函数 ,结果恒为 2^n-1
     case VREFL1:         // 参考低电压,可用ADC函数 ,结果恒为 0

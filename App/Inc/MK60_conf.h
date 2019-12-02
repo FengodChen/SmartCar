@@ -24,7 +24,15 @@
 //#define MK60F15
 
 
+/*
+ * 定义LCD型号
+ */
+#define LCD_ILI9341     1       // 3.2寸液晶(野火/秉火)
+#define LCD_ST7735S     2       // 1.44寸液晶      LCD_ST7735S 与 LCD_ST7735R 外观一样，寄存器操作略有不同
+#define LCD_ST7735R     3       // 1.44寸液晶
+#define LCD_ILI9325     4       // 3.2寸液晶(山外)
 
+#define USE_LCD         LCD_ST7735S             //选择使用的 LCD
 
 /*
  * 选择是否输出调试信息，不输出则注释下面的宏定义
@@ -47,10 +55,10 @@
 /*
  * 定义 PLL 超频 频率
  */
-#define CORE_CLK                PLL96       // 从 PLL_e 里选择 已提供的 配置方案
+#define CORE_CLK                PLL160       // 从 PLL_e 里选择 已提供的 配置方案
                                             // bus 、 flex bus 、 flash 频率 都是 core 整数倍分频而来
-#define MAX_BUS_CLK             48          // bus      (bus        >= core/16  )
-#define MAX_FLEXBUS_CLK         25          // flex bus (flex bus   >= core/16  )
+#define MAX_BUS_CLK             80          // bus      (bus        >= core/16  )
+#define MAX_FLEXBUS_CLK         50          // flex bus (flex bus   >= core/16  )
 #define MAX_FLASH_CLK           25          // flash    (flash      >= core/16  )
 
 #elif defined(MK60F15)			//以下为 MK60F15 的超频配置
@@ -78,7 +86,7 @@
  * 定义 printf函数 的 串口输出端口 和 串口信息
  */
 #define VCAN_PORT           UART0
-#define VCAN_BAUD           115200
+#define VCAN_BAUD           256000
 
 /*
  * 配置延时函数

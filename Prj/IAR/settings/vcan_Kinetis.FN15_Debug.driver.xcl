@@ -2,17 +2,17 @@
 
 "--cpu=Cortex-M4" 
 
-"--fpu=None" 
+"--fpu=VFPv4_SP" 
 
 "-p" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CONFIG\debugger\NXP\MK60FN1M0xxx15.ddf" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\CONFIG\debugger\NXP\MK64FX512xxx12.ddf" 
 
 "--drv_verify_download" 
 
 "--semihosting=none" 
 
-"--device=MK60FN1M0xxx15" 
+"--device=MK64FX512xxx12" 
 
 "--drv_communication=USB0" 
 

@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -78,7 +78,7 @@
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state>MK60FN1M0xxx15	Freescale MK60FN1M0xxx15</state>
+                    <state>MK64FX512xxx12	NXP MK64FX512xxx12</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -138,17 +138,17 @@
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state>MK60FN1M0xxx15	Freescale MK60FN1M0xxx15</state>
+                    <state>MK64FX512xxx12	NXP MK64FX512xxx12</state>
                 </option>
                 <option>
                     <name>FPU2</name>
                     <version>0</version>
-                    <state>0</state>
+                    <state>4</state>
                 </option>
                 <option>
                     <name>NrRegs</name>
                     <version>0</version>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>NEON</name>
@@ -198,7 +198,7 @@
                 </option>
                 <option>
                     <name>DSPExtension</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>TrustZone</name>
@@ -1112,7 +1112,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -2158,7 +2158,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -2170,7 +2170,7 @@
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state>MK60FX512xxx15	Freescale MK60FX512xxx15</state>
+                    <state>MK64FX512xxx12	NXP MK64FX512xxx12</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -2230,17 +2230,17 @@
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state>MK60FX512xxx15	Freescale MK60FX512xxx15</state>
+                    <state>MK64FX512xxx12	NXP MK64FX512xxx12</state>
                 </option>
                 <option>
                     <name>FPU2</name>
                     <version>0</version>
-                    <state>0</state>
+                    <state>4</state>
                 </option>
                 <option>
                     <name>NrRegs</name>
                     <version>0</version>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>NEON</name>
@@ -2290,7 +2290,7 @@
                 </option>
                 <option>
                     <name>DSPExtension</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>TrustZone</name>
@@ -3204,7 +3204,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -5195,7 +5195,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state>vcan_Kinetis_import_lib.o</state>
+                    <state>###Unitialized###</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>
@@ -5295,7 +5295,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -6278,7 +6278,13 @@
     <group>
         <name>App</name>
         <file>
+            <name>$PROJ_DIR$\..\..\App\Analog_sensor.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\App\BJTU_func.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\App\HMI_interface.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\App\main.c</name>
@@ -6296,16 +6302,52 @@
             <name>$PROJ_DIR$\..\..\App\Inc\MK60_it.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\App\oled.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\App\Inc\PORT_cfg.h</name>
         </file>
     </group>
     <group>
         <name>Board</name>
         <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_ASCII.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_BMP.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_camera.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\Board\src\VCAN_computer.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\Board\src\vcan_img2sd.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\Board\src\VCAN_key.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_key_event.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD_CH.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD_ILI9325.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD_ILI9341.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD_ST7735R.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_LCD_ST7735S.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\Board\src\VCAN_LED.C</name>
@@ -6317,7 +6359,31 @@
             <name>$PROJ_DIR$\..\..\Board\src\VCAN_NRF24L0.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_NRF24L0_MSG.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_OV7725_Eagle.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_OV7725_Wolf.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\Board\src\VCAN_RTC_count.C</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_SCCB.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\vcan_sd_app.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\Vcan_touch.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_TSL1401.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Board\src\VCAN_UI_VAR.c</name>
         </file>
     </group>
     <group>
@@ -6332,10 +6398,22 @@
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_adc.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_can.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_dac.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_dma.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_DWT.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_flash.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_flexbus.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_ftm.c</name>
@@ -6362,6 +6440,9 @@
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_rtc.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_sdhc.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_spi.c</name>
         </file>
         <file>
@@ -6369,6 +6450,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_uart.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Chip\src\MK60_usb.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\Chip\src\MK60_wdog.c</name>

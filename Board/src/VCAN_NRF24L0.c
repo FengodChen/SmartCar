@@ -41,7 +41,7 @@ typedef enum
 //gpio控制CE和IRQ
 #define NRF_CE_HIGH()       GPIO_SET(NRF_CE_PTXn,1)
 #define NRF_CE_LOW()        GPIO_SET(NRF_CE_PTXn,0)           //CE置低
-#define NRF_Read_IRQ()      GPIO_SET(NRF_IRQ_PTXn)
+#define NRF_Read_IRQ()      GPIO_GET(NRF_IRQ_PTXn)
 
 
 // 用户配置 发送和 接收地址，频道

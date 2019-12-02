@@ -383,6 +383,18 @@ typedef enum
 #include "misc.h"        //这两个顺序不能反，因为 arm_math.h 里需要  __NVIC_PRIO_BITS 的定义
 
 #define   __NVIC_PRIO_BITS    4       /*ARM Cortex M4 implementation for interrupt priority shift*/
+/* 优先级分组  -------------------------------------------------*/
+#define NVIC_PriorityGroup_0          ((uint32)0x7) /* 0 bits for pre-emption priority
+                                                      4 bits for subpriority */
+#define NVIC_PriorityGroup_1          ((uint32)0x6) /* 1 bits for pre-emption priority
+                                                      3 bits for subpriority */
+#define NVIC_PriorityGroup_2          ((uint32)0x5) /* 2 bits for pre-emption priority
+                                                      2 bits for subpriority */
+#define NVIC_PriorityGroup_3          ((uint32)0x4) /* 3 bits for pre-emption priority
+                                                      1 bits for subpriority */
+#define NVIC_PriorityGroup_4          ((uint32)0x3) /* 4 bits for pre-emption priority
+                                                      0 bits for subpriority */
+
 #include "arm_math.h"
 
 

@@ -37,7 +37,7 @@ PTXn_e LED_PTxn[LED_MAX] = {PTC16,PTC17,PTC18,PTC19};
  */
 void    led_init(LED_e ledn)
 {
-    if(ledn < LED_MAX)
+    if((uint32)ledn < (uint32)LED_MAX)
     {
         gpio_init(LED_PTxn[ledn],GPO,LED_OFF);
     }
@@ -63,7 +63,7 @@ void    led_init(LED_e ledn)
  */
 void    led(LED_e ledn,LED_status status)
 {
-    if(ledn < LED_MAX)
+    if((uint32)ledn < (uint32)LED_MAX)
     {
         gpio_set(LED_PTxn[ledn],status);
     }
@@ -85,7 +85,7 @@ void    led(LED_e ledn,LED_status status)
  */
 void led_turn(LED_e ledn)
 {
-    if(ledn < LED_MAX)
+    if((uint32)ledn < (uint32)LED_MAX)
     {
         gpio_turn(LED_PTxn[ledn]);
     }

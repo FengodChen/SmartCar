@@ -5,7 +5,7 @@
 enum {GO_AHEAD, GO_BACK};
 
 #define KEY_AHEAD KEY_START
-#define KEY_BACK KEY_STOP
+#define KEY_BACK KEY_A
 
 static battle_states bs;
 static speed_states ss;

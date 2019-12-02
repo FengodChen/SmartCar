@@ -11,7 +11,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -44,7 +44,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state>$TOOLKIT_DIR$\CONFIG\debugger\NXP\MK60FN1M0xxx15.ddf</state>
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\NXP\MK64FX512xxx12.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -88,7 +88,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Freescale\FlashK60Fxxx128K.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\NXP\FlashK64Fxxx128K.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -213,10 +213,6 @@
                 <option>
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -1003,7 +999,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -1101,7 +1097,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -1115,11 +1111,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -1223,7 +1214,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -1385,18 +1376,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -1417,15 +1396,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -1492,7 +1463,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1694,10 +1665,6 @@
                 <option>
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -2484,7 +2451,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -2582,7 +2549,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -2596,11 +2563,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -2704,7 +2666,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -2866,18 +2828,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -2898,15 +2848,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -2973,7 +2915,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -3006,7 +2948,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Freescale\MK60F15.svd.xml</state>
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\NXP\MK64FX512xxx12.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -3050,7 +2992,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>6.30.1.53141</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -3074,7 +3016,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Freescale\FlashK60Fxxx128K.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\NXP\FlashK64Fxxx128K.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -3142,7 +3084,7 @@
                 </option>
                 <option>
                     <name>OCMulticoreNrOfCores</name>
-                    <state></state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OCMulticoreMaster</name>
@@ -3175,10 +3117,6 @@
                 <option>
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -3965,7 +3903,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -4063,7 +4001,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -4077,11 +4015,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -4185,7 +4118,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -4347,18 +4280,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -4379,15 +4300,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -4454,7 +4367,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -4656,10 +4569,6 @@
                 <option>
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -5446,7 +5355,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -5544,7 +5453,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -5558,11 +5467,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -5666,7 +5570,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -5828,18 +5732,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -5860,15 +5752,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -5935,7 +5819,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -6012,7 +5896,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>8.32.1.18618</state>
+                    <state>8.22.2.15993</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -6138,10 +6022,6 @@
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -6754,7 +6634,7 @@
                 </option>
                 <option>
                     <name>CCJLinkInterfaceRadio</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCJLinkResetList</name>
@@ -6927,7 +6807,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -7025,7 +6905,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -7039,11 +6919,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -7147,7 +7022,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -7309,18 +7184,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -7341,15 +7204,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -7416,7 +7271,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>30</version>
+                <version>29</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -7619,10 +7474,6 @@
                     <name>MassEraseBeforeFlashing</name>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>OCMulticoreNrOfCoresSlave</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -8408,7 +8259,7 @@
             <name>STLINK_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>6</version>
+                <version>5</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -8506,7 +8357,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkJtagSpeedList</name>
-                    <version>2</version>
+                    <version>0</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -8520,11 +8371,6 @@
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
                     <state>0</state>
-                </option>
-                <option>
-                    <name>CCSTLinkProbeList</name>
-                    <version>0</version>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -8628,7 +8474,7 @@
             <name>XDS100_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>8</version>
+                <version>6</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -8790,18 +8636,6 @@
                     <name>CCXds100SWOPort</name>
                     <state>1</state>
                 </option>
-                <option>
-                    <name>CCXDSTargetVccEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
-                <option>
-                    <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <debuggerPlugins>
@@ -8822,15 +8656,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\HWRTOSplugin\HWRTOSplugin.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\Mbed\MbedArmPlugin2.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>

@@ -42,11 +42,11 @@ typedef enum
     ADC0_SE16,      // ADC0_SE16
     ADC0_SE17,      // PTE24
     ADC0_SE18,      // PTE25
-    ADC0_DM0,       // ADC0_DM0
-    ADC0_DM1,       // ADC0_DM1
-    RES0,           // 保留
-    RES1,           // 保留
-    DAC0_OUT,       // DAC0输出 不支持ADC
+    ADC0_SE19,       // ADC0_DM0 //////////////////////////////////////////////////
+    ADC0_SE20,       // ADC0_DM1
+    ADC0_SE21,           // 保留
+    ADC0_SE22,           // 保留
+    ADC0_SE23,       // DAC0输出 不支持ADC/////////////////////////////王睿修改
     RES2,           // 保留
     RES3,           // 保留
     Temp0_Sensor,   // Temperature Sensor,内部温度测量，可用ADC函数
@@ -81,12 +81,18 @@ typedef enum
     ADC1_SE15,      // PTB11
     ADC1_SE16,      // ADC1_SE16
     ADC1_SE17,      // PTA17
-    VREF_OUTPUT,    // VREF Output
-    ADC1_DM0,       // ADC1_DM0
-    ADC1_DM1,       // ADC1_DM1
-    RES5,           //保留
-    RES6,
-    DAC1_OUT,
+    ADC1_SE18,      // PTE25
+    ADC1_SE19,       // ADC0_DM0 //////////////////////////////////////////////////
+    ADC1_SE20,       // ADC0_DM1
+    ADC1_SE21,           // 保留
+    ADC1_SE22,           // 保留
+    ADC1_SE23,       // DAC0输出 不支持ADC/////////////////////////////王睿修改
+//    VREF_OUTPUT,    // VREF Output
+//    ADC1_DM0,       // ADC1_DM0
+//    ADC1_DM1,       // ADC1_DM1
+//    RES5,           //保留
+//    RES6,
+//    DAC1_OUT,
     RES7,           //保留
     RES8,
     Temp1_Sensor,
