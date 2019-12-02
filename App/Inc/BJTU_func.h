@@ -5,10 +5,11 @@
  * @ID 17211401
  * 
  * This header file used to BJTU Smart Car.
- * It based on MK60 program.
+ * It based on MK60_DZ10 program.
+ * Use IAR Embedded Workbench IDE 8.32.1
  * 
- * @File BJTU_fun.h BJTU_func.c
- * @Date Oct 1, 2019
+ * @File BJTU_func.h BJTU_func.c
+ * @Date Oct 3, 2019
  *
  */
 
@@ -18,12 +19,8 @@
 #include "common.h"
 #include "include.h"
 
-#define GPIO_GO_AHEAD 0
-#define GPIO_GO_BACK 1
-
-// 轮胎电机数据全局变量
-//static uint8 gpio_out_vol;
-//  static uint8 wheel_freq;
+#define WHEEL_GO_AHEAD 0
+#define WHEEL_GO_BACK 1
 
 // 电池信息结构体
 typedef struct battle_states {
@@ -31,27 +28,44 @@ typedef struct battle_states {
   uint8 vol;
 } battle_states;
 
+// 速度信息结构体
 typedef struct speed_states {
   int16 left_wheel;
   int16 right_wheel;
 } speed_states;
 
-uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);       // 得到修正过的占空比
+// 后车车轮状态结构体
+typedef struct wheel_states {
+  uint8 ahead_or_back;
+  uint8 freq;
+} wheel_states;
 
-void bjtu_init_adc();                                   // 初始化ADC
-void bjtu_init_uart();                                  // 初始化UART
-void bjtu_init_wheel();                                 // 初始化后轮轮胎（电机频率等）
-void bjtu_init_encoder();                               // 初始化编码器
+/* 底层函数，建议不要使用 */
+uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);            // 得到修正过的占空比
 
-void bjtu_set_wheel_freq_all(uint8 freq);               // 设置后轮两个轮胎转动占空比
-void bjtu_set_wheel_freq_left(uint8 freq);              // 设置后轮左轮转动占空比
-void bjtu_set_wheel_freq_right(uint8 freq);             // 设置后轮右轮转动占空比
-void bjtu_set_wheel_back();                             // 设置后轮轮胎向后转
-void bjtu_set_wheel_ahead();                            // 设置后轮轮胎向前转
+/* 用于开始时的初始化 */
+void bjtu_init_adc(void);                                   // 初始化ADC
+void bjtu_init_uart(void);                                  // 初始化UART
+void bjtu_init_wheel(void);                                 // 初始化后轮轮胎（电机频率等）
+void bjtu_init_encoder(void);                               // 初始化编码器
+void bjtu_init_main(void);                                  // 初始化全部所需要的硬件
 
-battle_states bjtu_get_battle_states();                 // 得到电池信息并返回
-speed_states bjtu_get_speed_states();                   // 得到后轮速度信息并返回
+/* 设置后车车轮的占空比以及正反转 */
+void bjtu_set_wheel_freq_all(uint8 freq);                       // 设置后轮两个轮胎转动占空比
+void bjtu_set_wheel_freq_left(uint8 freq);                      // 设置后轮左轮转动占空比
+void bjtu_set_wheel_freq_right(uint8 freq);                     // 设置后轮右轮转动占空比
+void bjtu_set_wheel_back_all(void);                             // 设置后轮两个轮胎向后转
+void bjtu_set_wheel_back_left(void);                            // 设置后轮左轮向后转
+void bjtu_set_wheel_back_right(void);                           // 设置后轮右轮向后转
+void bjtu_set_wheel_ahead_all(void);                            // 设置后轮两个轮胎向前转
+void bjtu_set_wheel_ahead_left(void);                           // 设置后轮左轮向前转
+void bjtu_set_wheel_ahead_right(void);                          // 设置后轮右轮向前转
 
+/* 获取各种信息 */
+battle_states bjtu_get_battle_states(void);                 // 得到电池信息并返回
+speed_states bjtu_get_speed_states(void);                   // 得到后轮速度信息并返回
+
+/* 使用printf输出各种信息 */
 void bjtu_print_battle_states(battle_states);           // 通过printf输出电池信息
 void bjtu_print_speed_states(speed_states);             // 通过printf输出后轮速度
 
