@@ -28,16 +28,12 @@ typedef struct battle_states {
   uint8 vol;
 } battle_states;
 
-// ËÙ¶ÈĞÅÏ¢½á¹¹Ìå
-typedef struct speed_states {
-  int16 left_wheel;
-  int16 right_wheel;
-} speed_states;
-
 // ºó³µ³µÂÖ×´Ì¬½á¹¹Ìå
 typedef struct wheel_states {
-  uint8 ahead_or_back;
-  uint8 freq;
+  uint8 ahead_or_back;          // ÏòÇ°×ª»òÏòºó×ª
+  uint8 freq;                   // µç»ú¹©µçÕ¼¿Õ±È
+  int16 expect_speed;           // ÆÚÍûµÄËÙ¶È
+  int16 now_speed;              // Ä¿Ç°µÄËÙ¶È
 } wheel_states;
 
 /* µ×²ãº¯Êı£¬½¨Òé²»ÒªÊ¹ÓÃ */
@@ -54,19 +50,25 @@ void bjtu_init_main(void);                                  // ³õÊ¼»¯È«²¿ËùĞèÒªµ
 void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È
 void bjtu_set_wheel_freq_left(uint8 freq);                      // ÉèÖÃºóÂÖ×óÂÖ×ª¶¯Õ¼¿Õ±È
 void bjtu_set_wheel_freq_right(uint8 freq);                     // ÉèÖÃºóÂÖÓÒÂÖ×ª¶¯Õ¼¿Õ±È
+
 void bjtu_set_wheel_back_all(void);                             // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥Ïòºó×ª
 void bjtu_set_wheel_back_left(void);                            // ÉèÖÃºóÂÖ×óÂÖÏòºó×ª
 void bjtu_set_wheel_back_right(void);                           // ÉèÖÃºóÂÖÓÒÂÖÏòºó×ª
+
 void bjtu_set_wheel_ahead_all(void);                            // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥ÏòÇ°×ª
 void bjtu_set_wheel_ahead_left(void);                           // ÉèÖÃºóÂÖ×óÂÖÏòÇ°×ª
 void bjtu_set_wheel_ahead_right(void);                          // ÉèÖÃºóÂÖÓÒÂÖÏòÇ°×ª
 
-/* »ñÈ¡¸÷ÖÖĞÅÏ¢ */
-battle_states bjtu_get_battle_states(void);                 // µÃµ½µç³ØĞÅÏ¢²¢·µ»Ø
-speed_states bjtu_get_speed_states(void);                   // µÃµ½ºóÂÖËÙ¶ÈĞÅÏ¢²¢·µ»Ø
+void bjtu_set_wheel_expect_speed_all(int8 speed);               // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥ÆÚÍûËÙ¶È
+void bjtu_set_wheel_expect_speed_left(int8 speed);              // ÉèÖÃºóÂÖ×óÂÖÆÚÍûËÙ¶È
+void bjtu_set_wheel_expect_speed_right(int8 speed);             // ÉèÖÃºóÂÖÓÒÂÖÆÚÍûËÙ¶È
+
+/* Ë¢ĞÂ¸÷ÖÖĞÅÏ¢ */ 
+void bjtu_refresh_battle_states(void);                         // µÃµ½µç³ØĞÅÏ¢²¢·µ»Ø
+void bjtu_refresh_wheel_now_speed(void);                       // µÃµ½ºóÂÖËÙ¶ÈĞÅÏ¢²¢·µ»Ø
 
 /* Ê¹ÓÃprintfÊä³ö¸÷ÖÖĞÅÏ¢ */
-void bjtu_print_battle_states(battle_states);           // Í¨¹ıprintfÊä³öµç³ØĞÅÏ¢
-void bjtu_print_speed_states(speed_states);             // Í¨¹ıprintfÊä³öºóÂÖËÙ¶È
+void bjtu_print_battle_states(void);                            // Í¨¹ıprintfÊä³öµç³ØĞÅÏ¢
+void bjtu_print_speed_states(void);                             // Í¨¹ıprintfÊä³öºóÂÖËÙ¶È
 
 #endif

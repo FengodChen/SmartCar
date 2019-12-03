@@ -18,7 +18,10 @@
 static wheel_states left_wheel;
 static wheel_states right_wheel;
 
+static battle_states bs;
+
 /* ----------------- !Inner Function! ----------------- */
+
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
   if (gpio_out_vol == 0)
     return freq;
@@ -27,6 +30,7 @@ uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
 }
 
 /* ----------------- Initialize Function ----------------- */
+
 void bjtu_init_adc(void) {
   adc_init(ADC1_SE16);
 }
@@ -112,29 +116,42 @@ void bjtu_set_wheel_ahead_all(void) {
   bjtu_set_wheel_ahead_right();
 }
 
-/* ----------------- Get States Function ----------------- */
-battle_states bjtu_get_battle_states(void) {
-  battle_states tmp;
-  tmp.var = adc_once(ADC1_SE16, ADC_8bit);
-  tmp.vol = (3300*tmp.var)/((1<<8)-1);
-  return tmp;
+/* ----------------- Set Wheel Speed Function ----------------- */
+
+void bjtu_set_wheel_expect_speed_left(int8 speed) {
+  left_wheel.expect_speed = speed;
 }
 
-speed_states bjtu_get_speed_states(void) {
-  speed_states tmp;
-  tmp.left_wheel = ftm_quad_get(FTM1);
-  tmp.right_wheel = -ftm_quad_get(FTM2);
+void bjtu_set_wheel_expect_speed_right(int8 speed) {
+  right_wheel.expect_speed = speed;
+}
+
+void bjtu_set_wheel_expect_speed_all(int8 speed) {
+  bjtu_set_wheel_expect_speed_left(speed);
+  bjtu_set_wheel_expect_speed_right(speed);
+}
+
+/* ----------------- Refresh States Function ----------------- */
+
+void bjtu_refresh_battle_states(void) {
+  bs.var = adc_once(ADC1_SE16, ADC_8bit);
+  bs.vol = (3300*bs.var)/((1<<8)-1);
+}
+
+void bjtu_refresh_wheel_now_speed(void) {
+  left_wheel.now_speed = ftm_quad_get(FTM1);
+  right_wheel.now_speed = -ftm_quad_get(FTM2);
   ftm_quad_clean(FTM1);
   ftm_quad_clean(FTM2);
-  return tmp;
 }
 
 /* ----------------- Printf Function ----------------- */
-void bjtu_print_battle_states(battle_states bs) {
+
+void bjtu_print_battle_states(void) {
   printf("ADC采样结果为:%d，相应电压值为%dmV\n",bs.var, bs.vol);
 }
 
-void bjtu_print_speed_states(speed_states ss) {
-  printf("左轮速度是%d， 右轮速度是%d\n", ss.left_wheel, ss.right_wheel);
+void bjtu_print_speed_states(void) {
+  printf("左轮速度是%d， 右轮速度是%d\n", left_wheel.now_speed, right_wheel.now_speed);
 }
 
