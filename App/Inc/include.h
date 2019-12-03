@@ -46,7 +46,8 @@
 
 #include  "Analog_sensor.h"     //Ä£Äâ´«¸ÐÆ÷
 #include  "HMI_interface.h" 
-#include "main.h"
+#include  "main.h"
+#include  "oled.h"
 
 
 #endif  //__INCLUDE_H__

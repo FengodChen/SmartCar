@@ -15,6 +15,8 @@
 
 #include "BJTU_func.h"
 
+#define STEERING_PIT(X) PIT0##X
+
 static wheel_states left_wheel;
 static wheel_states right_wheel;
 
@@ -27,6 +29,19 @@ uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
     return freq;
   else
     return 100-freq;
+}
+
+void steering_end_turn(void) {
+  gpio_set(PTE5, 1);
+  //led_turn(LED0);
+  PIT_Flag_Clear(STEERING_PIT());
+}
+
+void steering_start_turn(uint16 time_us) {
+  pit_init_us(STEERING_PIT(), time_us);
+  gpio_set(PTE5, 0);
+  set_vector_handler(STEERING_PIT(_VECTORn), steering_end_turn);
+  enable_irq (STEERING_PIT(_IRQn));
 }
 
 /* ----------------- Initialize Function ----------------- */
@@ -53,11 +68,21 @@ void bjtu_init_encoder(void) {
   ftm_quad_init(FTM2);
 }
 
+void bjtu_init_oled(void) {
+  OLED_Init();
+}
+
+void bjtu_init_steering(void) {
+  gpio_init(PTE5,GPO,1);
+}
+
 void bjtu_init_main(void) {
   bjtu_init_adc();
   bjtu_init_uart();
   bjtu_init_wheel();
   bjtu_init_encoder();
+  bjtu_init_oled();
+  bjtu_init_steering();
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */

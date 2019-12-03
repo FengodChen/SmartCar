@@ -38,12 +38,16 @@ typedef struct wheel_states {
 
 /* 底层函数，建议不要使用 */
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);            // 得到修正过的占空比
+void steering_end_turn(void);                               // 中断函数，将舵机电平重新归零
+void steering_start_turn(uint16 time_us);                   // 将舵机电平置一并开始中断
 
 /* 用于开始时的初始化 */
 void bjtu_init_adc(void);                                   // 初始化ADC
 void bjtu_init_uart(void);                                  // 初始化UART
 void bjtu_init_wheel(void);                                 // 初始化后轮轮胎（电机频率等）
 void bjtu_init_encoder(void);                               // 初始化编码器
+void bjtu_init_oled(void);                                  // 初始化OLED
+void bjtu_init_steering(void);                              // 初始化舵机
 void bjtu_init_main(void);                                  // 初始化全部所需要的硬件
 
 /* 设置后车车轮的占空比以及正反转 */
