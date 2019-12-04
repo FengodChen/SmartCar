@@ -19,8 +19,12 @@
 #include "common.h"
 #include "include.h"
 
-#define WHEEL_GO_AHEAD 0
-#define WHEEL_GO_BACK 1
+#define WHEEL_GO_AHEAD  (0)
+#define WHEEL_GO_BACK   (1)
+
+#define STEERING_MIDDLE         (980)
+#define STEERING_LEFT_MAX       (1200)
+#define STEERING_RIGHT_MAX      (800)
 
 // µç³ØĞÅÏ¢½á¹¹Ìå
 typedef struct battle_states {
@@ -42,6 +46,7 @@ void steering_end_turn(void);                               // ÖĞ¶Ïº¯Êı£¬½«¶æ»úµ
 void steering_start_turn(uint16 time_us);                   // ½«¶æ»úµçÆ½ÖÃÒ»²¢¿ªÊ¼ÖĞ¶Ï
 
 /* ÓÃÓÚ¿ªÊ¼Ê±µÄ³õÊ¼»¯ */
+void bjtu_init_led(void);                                   // ³õÊ¼»¯ËÄ¸öLED
 void bjtu_init_adc(void);                                   // ³õÊ¼»¯ADC
 void bjtu_init_uart(void);                                  // ³õÊ¼»¯UART
 void bjtu_init_wheel(void);                                 // ³õÊ¼»¯ºóÂÖÂÖÌ¥£¨µç»úÆµÂÊµÈ£©

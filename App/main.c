@@ -16,8 +16,6 @@ void PIT0_IRQHandler(void)
 
 void main() {
   bjtu_init_main();
-  led_init(LED0);
-  led_init(LED1);
 
   //OLED_ShowChar(2,2,'A',12,0);
   //OLED_Refresh_Gram();
@@ -38,21 +36,21 @@ void main() {
     bjtu_print_speed_states();
     
     //steering_start_turn(1000);
-    uint16 i = 2000;
+    //uint16 i = 2000;
 
     if (key_check(KEY_AHEAD) == KEY_DOWN) {
       //bjtu_set_wheel_ahead_all();
       led_turn(LED0);
       //if (i > 500)
       //  i -= 500;
-      steering_start_turn(2000);
+      steering_start_turn(STEERING_MIDDLE);
       DELAY_MS(500);
     }
     else if (key_check(KEY_BACK) == KEY_DOWN) {
       //bjtu_set_wheel_back_all();
       led_turn(LED1);
       //i += 500;
-      steering_start_turn(i);
+      steering_start_turn(800);
       DELAY_MS(500);
     }
     

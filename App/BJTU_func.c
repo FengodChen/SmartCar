@@ -33,18 +33,24 @@ uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
 
 void steering_end_turn(void) {
   gpio_set(PTE5, 1);
-  //led_turn(LED0);
   PIT_Flag_Clear(STEERING_PIT());
 }
 
 void steering_start_turn(uint16 time_us) {
-  pit_init_us(STEERING_PIT(), time_us);
-  gpio_set(PTE5, 0);
   set_vector_handler(STEERING_PIT(_VECTORn), steering_end_turn);
+  gpio_set(PTE5, 0);
+  pit_init_us(STEERING_PIT(), time_us);
   enable_irq (STEERING_PIT(_IRQn));
 }
 
 /* ----------------- Initialize Function ----------------- */
+
+void bjtu_init_led(void) {
+  led_init(LED0);
+  led_init(LED1);
+  led_init(LED2);
+  led_init(LED3);
+}
 
 void bjtu_init_adc(void) {
   adc_init(ADC1_SE16);
@@ -74,6 +80,10 @@ void bjtu_init_oled(void) {
 
 void bjtu_init_steering(void) {
   gpio_init(PTE5,GPO,1);
+  steering_start_turn(STEERING_MIDDLE);
+  DELAY_MS(10);
+  steering_start_turn(STEERING_MIDDLE);
+  DELAY_MS(10);
 }
 
 void bjtu_init_main(void) {
@@ -83,6 +93,7 @@ void bjtu_init_main(void) {
   bjtu_init_encoder();
   bjtu_init_oled();
   bjtu_init_steering();
+  bjtu_init_led();
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
