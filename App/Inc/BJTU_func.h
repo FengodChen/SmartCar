@@ -40,20 +40,23 @@ typedef struct wheel_states {
   int16 now_speed;              // Ä¿Ç°µÄËÙ¶È
 } wheel_states;
 
-/* µ×²ãº¯Êı£¬½¨Òé²»ÒªÊ¹ÓÃ */
-uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);            // µÃµ½ĞŞÕı¹ıµÄÕ¼¿Õ±È
-void steering_end_turn(void);                               // ÖĞ¶Ïº¯Êı£¬½«¶æ»úµçÆ½ÖØĞÂ¹éÁã
-void steering_start_turn(uint16 time_us);                   // ½«¶æ»úµçÆ½ÖÃÒ»²¢¿ªÊ¼ÖĞ¶Ï
+/* µ×²ãº¯Êı£¬½¨Òé²»ÒªÇáÒ×Ê¹ÓÃ */
+uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);                // µÃµ½ĞŞÕı¹ıµÄÕ¼¿Õ±È
+void steering_end_turn(void);                                   // ÖĞ¶Ïº¯Êı£¬½«¶æ»úµçÆ½ÖØĞÂ¹éÁã
+void steering_start_turn(uint16 time_us);                       // ½«¶æ»úµçÆ½ÖÃÒ»²¢¿ªÊ¼ÖĞ¶Ï
+void PORTA_IRQHandler(void);
+void DMA0_IRQHandler(void);
 
 /* ÓÃÓÚ¿ªÊ¼Ê±µÄ³õÊ¼»¯ */
-void bjtu_init_led(void);                                   // ³õÊ¼»¯ËÄ¸öLED
-void bjtu_init_adc(void);                                   // ³õÊ¼»¯ADC
-void bjtu_init_uart(void);                                  // ³õÊ¼»¯UART
-void bjtu_init_wheel(void);                                 // ³õÊ¼»¯ºóÂÖÂÖÌ¥£¨µç»úÆµÂÊµÈ£©
-void bjtu_init_encoder(void);                               // ³õÊ¼»¯±àÂëÆ÷
-void bjtu_init_oled(void);                                  // ³õÊ¼»¯OLED
-void bjtu_init_steering(void);                              // ³õÊ¼»¯¶æ»ú
-void bjtu_init_main(void);                                  // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
+void bjtu_init_led(void);                                       // ³õÊ¼»¯ËÄ¸öLED
+void bjtu_init_adc(void);                                       // ³õÊ¼»¯ADC
+void bjtu_init_uart(void);                                      // ³õÊ¼»¯UART
+void bjtu_init_wheel(void);                                     // ³õÊ¼»¯ºóÂÖÂÖÌ¥£¨µç»úÆµÂÊµÈ£©
+void bjtu_init_encoder(void);                                   // ³õÊ¼»¯±àÂëÆ÷
+void bjtu_init_oled(void);                                      // ³õÊ¼»¯OLED
+void bjtu_init_steering(void);                                  // ³õÊ¼»¯¶æ»ú
+void bjtu_init_camera(void);                                    // ³õÊ¼»¯ÉãÏñÍ·
+void bjtu_init_main(void);                                      // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
 
 /* ÉèÖÃºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
 void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È
@@ -73,11 +76,15 @@ void bjtu_set_wheel_expect_speed_left(int8 speed);              // ÉèÖÃºóÂÖ×óÂÖÆ
 void bjtu_set_wheel_expect_speed_right(int8 speed);             // ÉèÖÃºóÂÖÓÒÂÖÆÚÍûËÙ¶È
 
 /* Ë¢ĞÂ¸÷ÖÖĞÅÏ¢ */ 
-void bjtu_refresh_battle_states(void);                         // µÃµ½µç³ØĞÅÏ¢²¢·µ»Ø
-void bjtu_refresh_wheel_now_speed(void);                       // µÃµ½ºóÂÖËÙ¶ÈĞÅÏ¢²¢·µ»Ø
+void bjtu_refresh_battle_states(void);                          // µÃµ½µç³ØĞÅÏ¢²¢·µ»Ø
+void bjtu_refresh_wheel_now_speed(void);                        // µÃµ½ºóÂÖËÙ¶ÈĞÅÏ¢²¢·µ»Ø
+void bjtu_refresh_camera(void);                                 // µÃµ½Ïà»ú»ñÈ¡µÄÍ¼Ïñ
 
 /* Ê¹ÓÃprintfÊä³ö¸÷ÖÖĞÅÏ¢ */
 void bjtu_print_battle_states(void);                            // Í¨¹ıprintfÊä³öµç³ØĞÅÏ¢
 void bjtu_print_speed_states(void);                             // Í¨¹ıprintfÊä³öºóÂÖËÙ¶È
+
+/* OLEDÏÔÊ¾ */
+void bjtu_oled_show_camera(void);                               // OLEDÏÔÊ¾ÒÑ¾­´ÓÏà»ú»ñÈ¡µÄÊıÁĞµÄÍ¼Ïñ
 
 #endif

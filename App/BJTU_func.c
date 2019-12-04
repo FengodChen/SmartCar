@@ -22,6 +22,10 @@ static wheel_states right_wheel;
 
 static battle_states bs;
 
+static uint8 imgbuff[CAMERA_SIZE];
+static uint8 img[CAMERA_H*CAMERA_W];
+int imgCount = 0;
+
 /* ----------------- !Inner Function! ----------------- */
 
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
@@ -41,6 +45,22 @@ void steering_start_turn(uint16 time_us) {
   gpio_set(PTE5, 0);
   pit_init_us(STEERING_PIT(), time_us);
   enable_irq (STEERING_PIT(_IRQn));
+}
+
+void PORTA_IRQHandler(void) {
+  uint8 n;
+  uint32 flag;
+  while (!PORTA_ISFR);
+  flag = PORTA_ISFR;
+  PORTA_ISFR  = ~0;
+  n = 29;
+  if(flag & (1 << n)) {
+      camera_vsync();
+  }
+}
+
+void DMA0_IRQHandler(void) {
+    camera_dma();
 }
 
 /* ----------------- Initialize Function ----------------- */
@@ -81,9 +101,19 @@ void bjtu_init_oled(void) {
 void bjtu_init_steering(void) {
   gpio_init(PTE5,GPO,1);
   steering_start_turn(STEERING_MIDDLE);
-  DELAY_MS(10);
+  DELAY_MS(20);
   steering_start_turn(STEERING_MIDDLE);
-  DELAY_MS(10);
+  DELAY_MS(20);
+  steering_start_turn(STEERING_MIDDLE);
+  DELAY_MS(20);
+  steering_start_turn(STEERING_MIDDLE);
+  DELAY_MS(20);
+}
+
+void bjtu_init_camera(void) {
+  camera_init(imgbuff);
+  set_vector_handler(PORTA_VECTORn , PORTA_IRQHandler);   //设置 PORTA 的中断服务函数为 PORTA_IRQHandler
+  set_vector_handler(DMA0_VECTORn , DMA0_IRQHandler);     //设置 DMA0 的中断服务函数为 PORTA_IRQHandler
 }
 
 void bjtu_init_main(void) {
@@ -94,6 +124,7 @@ void bjtu_init_main(void) {
   bjtu_init_oled();
   bjtu_init_steering();
   bjtu_init_led();
+  bjtu_init_camera();
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
@@ -181,6 +212,12 @@ void bjtu_refresh_wheel_now_speed(void) {
   ftm_quad_clean(FTM2);
 }
 
+void bjtu_refresh_camera(void) {
+  camera_get_img();
+  img_extract(img, imgbuff, CAMERA_SIZE);
+  ++imgCount;
+}
+
 /* ----------------- Printf Function ----------------- */
 
 void bjtu_print_battle_states(void) {
@@ -191,3 +228,11 @@ void bjtu_print_speed_states(void) {
   printf("左轮速度是%d， 右轮速度是%d\n", left_wheel.now_speed, right_wheel.now_speed);
 }
 
+/* ----------------- OLED Function ----------------- */
+const Site_t site = {0, 0};
+const Size_t img_size = {CAMERA_W, CAMERA_H};
+const Size_t oled_show_size = {CAMERA_W, CAMERA_H};
+
+void bjtu_oled_show_camera(void) {
+  OLED_Img_gray_Z(site, oled_show_size, img, img_size);
+}

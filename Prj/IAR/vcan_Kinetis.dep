@@ -329,6 +329,8 @@
             <file>$PROJ_DIR$\..\..\Chip\src\IAR\system_MK60DZ10.c</file>
             <file>$PROJ_DIR$\..\..\Chip\src\vectors.c</file>
             <file>$PROJ_DIR$\..\..\Chip\src\MK60_flexbus.c</file>
+            <file>$PROJ_DIR$\..\..\..\SmartCar_Main_Example\Board\src\VCAN_OV7725_Eagle.c</file>
+            <file>$PROJ_DIR$\..\..\..\SmartCar_Main_Example\Board\inc\VCAN_OV7725_Eagle.h</file>
             <file>$PROJ_DIR$\..\..\..\SmartCar_Main_Example\App\Inc\oled.h</file>
             <file>$PROJ_DIR$\..\..\..\SmartCar_Main_Example\App\oled.c</file>
         </outputs>
@@ -1039,7 +1041,7 @@
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 279 35 65 244 73 284 42 213 298 232 268 56 46 289 75 45 27 12 134 59 269 271 208 40 200 290 280 32 41 91 83 52 223 131 48 120 274 245 249 74 58 121 248 227 61 231 44 66 278 138 97 55 140 270 230 167 258 292 103 236 203 128 132 257 242 34 93 205 272 81 286 295 156 243 69 238 195 60 135 122 265 196 76 233 67</file>
+                    <file> 268 274 35 65 244 52 73 279 42 213 91 83 131 48 56 46 289 75 298 41 223 120 245 269 271 208 40 200 290 280 32 232 45 27 284 12 134 59 249 74 58 121 248 227 61 231 44 66 278 138 97 55 140 270 230 167 258 292 103 236 203 128 132 257 242 34 93 205 272 81 286 295 156 243 69 238 195 60 135 122 265 196 76 233 67</file>
                 </tool>
             </inputs>
         </file>
