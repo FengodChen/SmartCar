@@ -18,6 +18,7 @@
 
 #include "common.h"
 #include "include.h"
+#include "DIP_func.h"
 
 #define WHEEL_GO_AHEAD  (0)
 #define WHEEL_GO_BACK   (1)
@@ -86,5 +87,8 @@ void bjtu_print_speed_states(void);                             // Í¨¹ıprintfÊä³
 
 /* OLEDÏÔÊ¾ */
 void bjtu_oled_show_camera(void);                               // OLEDÏÔÊ¾ÒÑ¾­´ÓÏà»ú»ñÈ¡µÄÊıÁĞµÄÍ¼Ïñ
+
+/* ÓÃÓÚ¸÷ÖÖDebug */
+void bjtu_debug_1(void);
 
 #endif

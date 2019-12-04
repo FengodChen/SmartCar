@@ -7114,6 +7114,9 @@
             <name>$PROJ_DIR$\..\..\App\BJTU_func.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\App\DIP_func.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\App\HMI_interface.c</name>
         </file>
         <file>

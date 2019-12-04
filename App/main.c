@@ -16,16 +16,17 @@ void main() {
   while(1) {
     bjtu_refresh_battle_states();
     bjtu_refresh_wheel_now_speed();
-    bjtu_print_battle_states();
-    bjtu_print_speed_states();
+    //bjtu_print_battle_states();
+    //bjtu_print_speed_states();
     
-    bjtu_refresh_camera();
-    bjtu_oled_show_camera();
-    DELAY_MS(50);
+    DELAY_MS(1);
     //steering_start_turn(1000);
     //uint16 i = 2000;
 
-    if (key_check(KEY_AHEAD) == KEY_DOWN) {
+    if (key_check(KEY_AHEAD) == KEY_DOWN) {    
+      bjtu_refresh_camera();
+      bjtu_debug_1();
+      bjtu_oled_show_camera();
       led_turn(LED0);
       DELAY_MS(500);
     }

@@ -125,6 +125,7 @@ void bjtu_init_main(void) {
   bjtu_init_steering();
   bjtu_init_led();
   bjtu_init_camera();
+  dip_init_main();
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
@@ -235,4 +236,11 @@ const Size_t oled_show_size = {CAMERA_W, CAMERA_H};
 
 void bjtu_oled_show_camera(void) {
   OLED_Img_gray_Z(site, oled_show_size, img, img_size);
+}
+
+/* ----------------- Debug Function ----------------- */
+void bjtu_debug_1(void) {
+  dip_process(img);
+  dip_get_turn_direction();
+  dip_print_weight();
 }

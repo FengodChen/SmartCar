@@ -5295,7 +5295,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.22.2.15993</state>
+                    <state>8.32.1.18618</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -5307,7 +5307,7 @@
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state>MK60DN512Zxxx10	Freescale MK60DN512Zxxx10</state>
+                    <state>MK60DN512Zxxx10	NXP MK60DN512Zxxx10</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -5341,7 +5341,7 @@
                 </option>
                 <option>
                     <name>RTConfigPath2</name>
-                    <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Full.h</state>
+                    <state>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</state>
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
@@ -5367,7 +5367,7 @@
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state>MK60DN512Zxxx10	Freescale MK60DN512Zxxx10</state>
+                    <state>MK60DN512Zxxx10	NXP MK60DN512Zxxx10</state>
                 </option>
                 <option>
                     <name>FPU2</name>
@@ -5427,7 +5427,7 @@
                 </option>
                 <option>
                     <name>DSPExtension</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>TrustZone</name>
@@ -6282,6 +6282,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\App\BJTU_func.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\App\DIP_func.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\App\HMI_interface.c</name>
