@@ -23,7 +23,7 @@
 #define WHEEL_GO_AHEAD  (0)
 #define WHEEL_GO_BACK   (1)
 
-#define STEERING_MIDDLE         (980)
+#define STEERING_MIDDLE         (1000)
 #define STEERING_LEFT_MAX       (1200)
 #define STEERING_RIGHT_MAX      (800)
 
@@ -40,6 +40,12 @@ typedef struct wheel_states {
   int16 expect_speed;           // ÆÚÍûµÄËÙ¶È
   int16 now_speed;              // Ä¿Ç°µÄËÙ¶È
 } wheel_states;
+
+// ¶æ»ú×ªÏò
+enum {
+  TURN_LEFT,
+  TURN_RIGHT
+};
 
 /* µ×²ãº¯Êı£¬½¨Òé²»ÒªÇáÒ×Ê¹ÓÃ */
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);                // µÃµ½ĞŞÕı¹ıµÄÕ¼¿Õ±È
@@ -59,7 +65,7 @@ void bjtu_init_steering(void);                                  // ³õÊ¼»¯¶æ»ú
 void bjtu_init_camera(void);                                    // ³õÊ¼»¯ÉãÏñÍ·
 void bjtu_init_main(void);                                      // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
 
-/* ÉèÖÃºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
+/* ¿ØÖÆºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
 void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È
 void bjtu_set_wheel_freq_left(uint8 freq);                      // ÉèÖÃºóÂÖ×óÂÖ×ª¶¯Õ¼¿Õ±È
 void bjtu_set_wheel_freq_right(uint8 freq);                     // ÉèÖÃºóÂÖÓÒÂÖ×ª¶¯Õ¼¿Õ±È
@@ -76,6 +82,10 @@ void bjtu_set_wheel_expect_speed_all(int8 speed);               // ÉèÖÃºóÂÖÁ½¸öÂ
 void bjtu_set_wheel_expect_speed_left(int8 speed);              // ÉèÖÃºóÂÖ×óÂÖÆÚÍûËÙ¶È
 void bjtu_set_wheel_expect_speed_right(int8 speed);             // ÉèÖÃºóÂÖÓÒÂÖÆÚÍûËÙ¶È
 
+/* ¿ØÖÆ¶æ»ú·½Ïò */
+void bjtu_set_steering_turn(uint8 direction, uint8 turn_percent);       // ÉèÖÃ¶æ»ú¾ø¶Ô×ªÏòÎ»ÖÃ @args £¨¶æ»ú×ªÏò£¬Æ«×ªÎ»ÖÃ°Ù·Ö±È£©
+void bjtu_turn_steering(void);                                          // ¸ù¾İÉèÖÃºÃµÄ¶æ»ú¾ø¶Ô×ªÏòÎ»ÖÃ½øĞĞ×ªÏò
+
 /* Ë¢ĞÂ¸÷ÖÖĞÅÏ¢ */ 
 void bjtu_refresh_battle_states(void);                          // µÃµ½µç³ØĞÅÏ¢²¢·µ»Ø
 void bjtu_refresh_wheel_now_speed(void);                        // µÃµ½ºóÂÖËÙ¶ÈĞÅÏ¢²¢·µ»Ø
@@ -84,6 +94,7 @@ void bjtu_refresh_camera(void);                                 // µÃµ½Ïà»ú»ñÈ¡µ
 /* Ê¹ÓÃprintfÊä³ö¸÷ÖÖĞÅÏ¢ */
 void bjtu_print_battle_states(void);                            // Í¨¹ıprintfÊä³öµç³ØĞÅÏ¢
 void bjtu_print_speed_states(void);                             // Í¨¹ıprintfÊä³öºóÂÖËÙ¶È
+void bjtu_print_image(void);                                    // Í¨¹ıprintfÊä³öÍ¼Ïñ
 
 /* OLEDÏÔÊ¾ */
 void bjtu_oled_show_camera(void);                               // OLEDÏÔÊ¾ÒÑ¾­´ÓÏà»ú»ñÈ¡µÄÊıÁĞµÄÍ¼Ïñ

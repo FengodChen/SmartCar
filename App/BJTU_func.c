@@ -26,6 +26,10 @@ static uint8 imgbuff[CAMERA_SIZE];
 static uint8 img[CAMERA_H*CAMERA_W];
 int imgCount = 0;
 
+const uint32 steering_turn_total = ((STEERING_RIGHT_MAX>STEERING_LEFT_MAX)?STEERING_RIGHT_MAX:STEERING_LEFT_MAX) - STEERING_MIDDLE;
+static uint16 steering_turn;
+
+
 /* ----------------- !Inner Function! ----------------- */
 
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol) {
@@ -100,6 +104,7 @@ void bjtu_init_oled(void) {
 
 void bjtu_init_steering(void) {
   gpio_init(PTE5,GPO,1);
+  steering_turn = STEERING_MIDDLE;
   steering_start_turn(STEERING_MIDDLE);
   DELAY_MS(20);
   steering_start_turn(STEERING_MIDDLE);
@@ -199,6 +204,19 @@ void bjtu_set_wheel_expect_speed_all(int8 speed) {
   bjtu_set_wheel_expect_speed_right(speed);
 }
 
+/* -----------------  Steering Function ----------------- */
+
+void bjtu_set_steering_turn(uint8 direction, uint8 turn_percent) {
+  if (direction == TURN_LEFT)
+    steering_turn = STEERING_MIDDLE + (steering_turn_total * turn_percent)/100;
+  else
+    steering_turn = STEERING_MIDDLE - (steering_turn_total * turn_percent)/100;
+}
+  
+void bjtu_turn_steering(void) {
+  steering_start_turn(steering_turn);
+}
+
 /* ----------------- Refresh States Function ----------------- */
 
 void bjtu_refresh_battle_states(void) {
@@ -222,11 +240,29 @@ void bjtu_refresh_camera(void) {
 /* ----------------- Printf Function ----------------- */
 
 void bjtu_print_battle_states(void) {
+  printf("\n=====Battle States=====\n");
   printf("ADC采样结果为:%d，相应电压值为%dmV\n",bs.var, bs.vol);
 }
 
 void bjtu_print_speed_states(void) {
+  printf("\n=====Speed States=====\n");
   printf("左轮速度是%d， 右轮速度是%d\n", left_wheel.now_speed, right_wheel.now_speed);
+}
+
+void bjtu_print_image(void) {
+  int half = IMG_W/2 - 1;
+  printf("\n=====Image States=====\n");
+  for (int i = 0; i < IMG_H; ++i) {
+    for (int j = 0; j < IMG_W; ++j) {
+      if (img[i*IMG_W + j] == 0)
+        printf("0");
+      else
+        printf("1");
+      if (j == half)
+        printf("-");
+    }
+    printf("!\n");
+  }
 }
 
 /* ----------------- OLED Function ----------------- */
@@ -242,5 +278,6 @@ void bjtu_oled_show_camera(void) {
 void bjtu_debug_1(void) {
   dip_process(img);
   dip_get_turn_direction();
+  bjtu_print_image();
   dip_print_weight();
 }

@@ -22,6 +22,7 @@ void main() {
     DELAY_MS(1);
     //steering_start_turn(1000);
     //uint16 i = 2000;
+    
 
     if (key_check(KEY_AHEAD) == KEY_DOWN) {    
       bjtu_refresh_camera();
@@ -29,12 +30,15 @@ void main() {
       bjtu_oled_show_camera();
       led_turn(LED0);
       DELAY_MS(500);
+      bjtu_set_steering_turn(TURN_LEFT, 50);
+      bjtu_turn_steering();
     }
     else if (key_check(KEY_BACK) == KEY_DOWN) {
       //bjtu_set_wheel_back_all();
       led_turn(LED1);
       //i += 500;
-      steering_start_turn(800);
+      bjtu_set_steering_turn(TURN_RIGHT, 50);
+      bjtu_turn_steering();
       DELAY_MS(500);
     }
     

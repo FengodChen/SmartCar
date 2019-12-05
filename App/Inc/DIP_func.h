@@ -18,6 +18,7 @@
 
 #include "common.h"
 #include "include.h"
+#include "BJTU_func.h"
 
 #define IMG_H CAMERA_H
 #define IMG_W CAMERA_W
@@ -32,10 +33,7 @@ typedef struct LR_weight {
   uint64 right;
 } LR_weight;
 
-enum {
-  TURN_LEFT,
-  TURN_RIGHT
-};
+
 
 /* 底层函数，建议不要轻易使用 */
 void dip_clear_statistic(void);                         // 统计信息归零

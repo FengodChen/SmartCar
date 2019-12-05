@@ -28,6 +28,7 @@ uint8 img_h_statistic_bool_R[IMG_H];      // ÕºœÒ∏ﬂ∂»∑ΩœÚ£®”“±ﬂ£©…œµƒ≥¨π˝„–÷µÕ≥º
 
 static int dip_i, dip_j;
 static int dip_h, dip_w;
+static uint64 dip_long_ptr;
 
 LR_weight width_weight;
 LR_weight height_weight;
@@ -69,16 +70,16 @@ void dip_clear_weight(void) {
 }
 
 void dip_make_statistic(uint8* img_array) {
-  dip_i = 0;
+  dip_long_ptr = 0;
   dip_clear_statistic();
   for (dip_h = 0; dip_h < IMG_H; ++dip_h) {
     for (dip_w = 0; dip_w < IMG_W; ++dip_w) {
-      if (img_array[dip_i++] == 0) {
-        ++img_w_statistic[dip_w];
+      if (img_array[dip_long_ptr++] == 0) {
+        img_w_statistic[dip_w] += 1;
         if (dip_w < img_width_middle)
-          ++img_h_statistic_L[dip_h];
+          img_h_statistic_L[dip_h] += 1;
         else
-          ++img_h_statistic_R[dip_h];
+          img_h_statistic_R[dip_h] += 1;
       }
     }
   }
@@ -128,16 +129,17 @@ uint8 dip_get_turn_direction(void) {
   total_left_weight = WIDTH_WEIGHT*width_weight.left + HEIGHT_WEIGHT*height_weight.left;
   total_right_weight = WIDTH_WEIGHT*width_weight.right + HEIGHT_WEIGHT*height_weight.right;
   if (total_left_weight > total_right_weight)
-    return TURN_LEFT;
-  else
     return TURN_RIGHT;
+  else
+    return TURN_LEFT;
 }
 
 void dip_print_weight(void) {
+  printf("\n=====Weight States=====\n");
   printf("width_weight.left = %lld, ", width_weight.left);
   printf("width_weight.right = %lld\n", width_weight.right);
   printf("height_weight.left = %lld, ", height_weight.left);
   printf("height_weight.right = %lld\n", height_weight.right);
-  printf("œÚ◊Ûµƒ»®÷ÿ «%lld£¨", total_left_weight);
-  printf("œÚ”“µƒ»®÷ÿ «%lld\n", total_right_weight);
+  printf("◊Û±ﬂŒ£œ’»®÷ÿ «%lld£¨", total_left_weight);
+  printf("”“±ﬂŒ£œ’»®÷ÿ «%lld\n", total_right_weight);
 }
