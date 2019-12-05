@@ -18,6 +18,7 @@
 
 #include "common.h"
 #include "include.h"
+#include "stdlib.h"
 #include "DIP_func.h"
 
 #define WHEEL_GO_AHEAD  (0)
@@ -26,6 +27,8 @@
 #define STEERING_MIDDLE         (1000)
 #define STEERING_LEFT_MAX       (1200)
 #define STEERING_RIGHT_MAX      (800)
+
+#define FUNC_PERIOD_MS          (20)
 
 // µç³ØĞÅÏ¢½á¹¹Ìå
 typedef struct battle_states {
@@ -41,6 +44,12 @@ typedef struct wheel_states {
   int16 now_speed;              // Ä¿Ç°µÄËÙ¶È
 } wheel_states;
 
+// º¯ÊıÁ´±í
+typedef struct func_list {
+  struct func_list *next;
+  void (*func)();
+} func_list;
+
 // ¶æ»ú×ªÏò
 enum {
   TURN_LEFT,
@@ -53,6 +62,17 @@ void steering_end_turn(void);                                   // ÖĞ¶Ïº¯Êı£¬½«¶
 void steering_start_turn(uint16 time_us);                       // ½«¶æ»úµçÆ½ÖÃÒ»²¢¿ªÊ¼ÖĞ¶Ï
 void PORTA_IRQHandler(void);
 void DMA0_IRQHandler(void);
+void malloc_func_list(func_list **now);                            // Îªº¯ÊıÁĞ±íÉêÇë¿Õ¼ä
+//void set_func_list(func_list *now, void *func, func_list *next);   // ÉèÖÃº¯ÊıÁĞ±í
+void func_loop(void);                                              // Ö´ĞĞº¯ÊıÁĞ±íÖĞµÄº¯Êı²¢¼ÌĞøÏÂÒ»ÂÖÑ­»·
+
+/* Ö÷Òªº¯Êı */
+void bjtu_init_main(void);                                              // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
+
+void bjtu_main_camera();                                     // Ïà»úÖ÷º¯Êı
+void bjtu_main_dip();                                        // Í¼Ïñ´¦ÀíÖ÷º¯Êı
+void bjtu_main_steering();                                   // ¶æ»ú×ª¶¯Ö÷º¯Êı
+void bjtu_main();                                            // ÖĞ¶ÏÓÃÖ÷º¯Êı
 
 /* ÓÃÓÚ¿ªÊ¼Ê±µÄ³õÊ¼»¯ */
 void bjtu_init_led(void);                                       // ³õÊ¼»¯ËÄ¸öLED
@@ -63,7 +83,8 @@ void bjtu_init_encoder(void);                                   // ³õÊ¼»¯±àÂëÆ÷
 void bjtu_init_oled(void);                                      // ³õÊ¼»¯OLED
 void bjtu_init_steering(void);                                  // ³õÊ¼»¯¶æ»ú
 void bjtu_init_camera(void);                                    // ³õÊ¼»¯ÉãÏñÍ·
-void bjtu_init_main(void);                                      // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
+void bjtu_init_func_list(void);                                 // ³õÊ¼»¯º¯ÊıÁĞ±í
+
 
 /* ¿ØÖÆºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
 void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È

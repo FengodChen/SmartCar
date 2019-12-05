@@ -15,7 +15,8 @@
 
 #include "BJTU_func.h"
 
-#define STEERING_PIT(X) PIT0##X
+#define MAIN_PIT(X)     PIT0##X
+#define STEERING_PIT(X) PIT1##X
 
 static wheel_states left_wheel;
 static wheel_states right_wheel;
@@ -29,6 +30,30 @@ int imgCount = 0;
 const uint32 steering_turn_total = ((STEERING_RIGHT_MAX>STEERING_LEFT_MAX)?STEERING_RIGHT_MAX:STEERING_LEFT_MAX) - STEERING_MIDDLE;
 static uint16 steering_turn;
 
+static func_list *main_func_head;
+
+/* ----------------- Main Function ----------------- */
+
+static void bjtu_main_camera() {
+  bjtu_refresh_camera();
+  bjtu_oled_show_camera();
+}
+
+static void bjtu_main_dip() {
+  dip_process(img);
+}
+
+static void bjtu_main_steering() {
+  bjtu_set_steering_turn(dip_get_turn_direction(), 60);
+  bjtu_turn_steering();
+}
+
+void bjtu_main() {
+  main_func_head->func();
+  main_func_head = main_func_head->next;
+  //pit_init_ms(MAIN_PIT(), FUNC_PERIOD_MS);
+  //enable_irq (MAIN_PIT(_IRQn));
+}
 
 /* ----------------- !Inner Function! ----------------- */
 
@@ -45,7 +70,6 @@ void steering_end_turn(void) {
 }
 
 void steering_start_turn(uint16 time_us) {
-  set_vector_handler(STEERING_PIT(_VECTORn), steering_end_turn);
   gpio_set(PTE5, 0);
   pit_init_us(STEERING_PIT(), time_us);
   enable_irq (STEERING_PIT(_IRQn));
@@ -67,7 +91,41 @@ void DMA0_IRQHandler(void) {
     camera_dma();
 }
 
+void malloc_func_list(func_list **now) {
+  (*now) = (func_list*)malloc(sizeof(func_list));
+}
+
+void func_loop(void) {
+  //main_func_head->func();
+  printf("\nHello, world!\n");
+  bjtu_main_camera();
+  printf("\nHello, world2!\n");
+  
+  main_func_head = main_func_head->next;
+  
+  PIT_Flag_Clear(MAIN_PIT());
+  pit_init_ms(MAIN_PIT(), FUNC_PERIOD_MS);
+  enable_irq (MAIN_PIT(_IRQn));
+}
+
 /* ----------------- Initialize Function ----------------- */
+
+void bjtu_init_func_list(void) {
+  func_list *tmp_dip, *tmp_steering;
+  
+  malloc_func_list(&main_func_head);
+  malloc_func_list(&tmp_dip);
+  malloc_func_list(&tmp_steering);
+  
+  main_func_head->func = bjtu_main_camera;
+  main_func_head->next = tmp_dip;
+  
+  tmp_dip->func = bjtu_main_dip;
+  tmp_dip->next = tmp_steering;
+  
+  tmp_steering->func = bjtu_main_steering;
+  tmp_steering->next = main_func_head;
+}
 
 void bjtu_init_led(void) {
   led_init(LED0);
@@ -103,6 +161,7 @@ void bjtu_init_oled(void) {
 }
 
 void bjtu_init_steering(void) {
+  set_vector_handler(STEERING_PIT(_VECTORn), steering_end_turn);
   gpio_init(PTE5,GPO,1);
   steering_turn = STEERING_MIDDLE;
   steering_start_turn(STEERING_MIDDLE);
@@ -130,7 +189,9 @@ void bjtu_init_main(void) {
   bjtu_init_steering();
   bjtu_init_led();
   bjtu_init_camera();
+  bjtu_init_func_list();
   dip_init_main();
+  set_vector_handler(MAIN_PIT(_VECTORn), func_loop);
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
@@ -281,3 +342,4 @@ void bjtu_debug_1(void) {
   bjtu_print_image();
   dip_print_weight();
 }
+
