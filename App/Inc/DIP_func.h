@@ -24,6 +24,7 @@
 #define IMG_W CAMERA_W
 
 #define LOWER_THRESHOLD 5
+#define NOT_TURN_THRESHOLD 15000
 
 #define HEIGHT_WEIGHT 2
 #define WIDTH_WEIGHT  1

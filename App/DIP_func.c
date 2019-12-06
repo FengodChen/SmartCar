@@ -128,10 +128,12 @@ void dip_process(uint8* img_array) {
 uint8 dip_get_turn_direction(void) {  
   total_left_weight = WIDTH_WEIGHT*width_weight.left + HEIGHT_WEIGHT*height_weight.left;
   total_right_weight = WIDTH_WEIGHT*width_weight.right + HEIGHT_WEIGHT*height_weight.right;
-  if (total_left_weight > total_right_weight)
+  if (total_left_weight > total_right_weight && total_left_weight - total_right_weight > NOT_TURN_THRESHOLD)
     return TURN_RIGHT;
-  else
+  else if (total_left_weight < total_right_weight && total_right_weight - total_left_weight > NOT_TURN_THRESHOLD)
     return TURN_LEFT;
+  else
+    return TURN_AHEAD;
 }
 
 void dip_print_weight(void) {

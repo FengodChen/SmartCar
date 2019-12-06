@@ -30,6 +30,11 @@
 
 #define FUNC_PERIOD_MS          (20)
 
+#define KEY_S3 KEY_START
+#define KEY_S2 KEY_B
+
+#define SPEED_LOWER_THRESHOLD 50
+
 // µç³ØĞÅÏ¢½á¹¹Ìå
 typedef struct battle_states {
   uint8 var;
@@ -53,7 +58,9 @@ typedef struct func_list {
 // ¶æ»ú×ªÏò
 enum {
   TURN_LEFT,
-  TURN_RIGHT
+  TURN_RIGHT,
+  TURN_AHEAD,
+  WHEEL_STOP
 };
 
 /* µ×²ãº¯Êı£¬½¨Òé²»ÒªÇáÒ×Ê¹ÓÃ */
@@ -72,9 +79,11 @@ void bjtu_init_main(void);                                              // ³õÊ¼»
 void bjtu_main_camera();                                     // Ïà»úÖ÷º¯Êı
 void bjtu_main_dip();                                        // Í¼Ïñ´¦ÀíÖ÷º¯Êı
 void bjtu_main_steering();                                   // ¶æ»ú×ª¶¯Ö÷º¯Êı
+void bjtu_main_speed();                                      // ¿ØÖÆËÙ¶Èº¯Êı
 void bjtu_main();                                            // ÖĞ¶ÏÓÃÖ÷º¯Êı
 
 /* ÓÃÓÚ¿ªÊ¼Ê±µÄ³õÊ¼»¯ */
+void bjtu_init_key(void);                                       // ³õÊ¼»¯°´¼ü
 void bjtu_init_led(void);                                       // ³õÊ¼»¯ËÄ¸öLED
 void bjtu_init_adc(void);                                       // ³õÊ¼»¯ADC
 void bjtu_init_uart(void);                                      // ³õÊ¼»¯UART
@@ -85,6 +94,8 @@ void bjtu_init_steering(void);                                  // ³õÊ¼»¯¶æ»ú
 void bjtu_init_camera(void);                                    // ³õÊ¼»¯ÉãÏñÍ·
 void bjtu_init_func_list(void);                                 // ³õÊ¼»¯º¯ÊıÁĞ±í
 
+/* ·´À¡°´¼ü */
+void bjtu_key_func(void);                                       // ¸÷ÖÖ°´¼üµÄ¹¦ÄÜº¯Êı
 
 /* ¿ØÖÆºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
 void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È

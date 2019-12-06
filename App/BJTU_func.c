@@ -23,6 +23,8 @@ static wheel_states right_wheel;
 
 static battle_states bs;
 
+static uint8 running_flag;
+
 static uint8 imgbuff[CAMERA_SIZE];
 static uint8 img[CAMERA_H*CAMERA_W];
 int imgCount = 0;
@@ -44,8 +46,16 @@ static void bjtu_main_dip() {
 }
 
 static void bjtu_main_steering() {
-  bjtu_set_steering_turn(dip_get_turn_direction(), 60);
+  bjtu_set_steering_turn(dip_get_turn_direction(), 90);
   bjtu_turn_steering();
+}
+
+static void bjtu_main_speed() {
+  bjtu_refresh_wheel_now_speed();
+  if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag)
+    running_flag = 1;
+  if (left_wheel.now_speed < SPEED_LOWER_THRESHOLD && right_wheel.now_speed < SPEED_LOWER_THRESHOLD && running_flag)
+    bjtu_set_wheel_freq_all(0);
 }
 
 void bjtu_main() {
@@ -111,11 +121,12 @@ void func_loop(void) {
 /* ----------------- Initialize Function ----------------- */
 
 void bjtu_init_func_list(void) {
-  func_list *tmp_dip, *tmp_steering;
+  func_list *tmp_dip, *tmp_steering, *tmp_speed;
   
   malloc_func_list(&main_func_head);
   malloc_func_list(&tmp_dip);
   malloc_func_list(&tmp_steering);
+  malloc_func_list(&tmp_speed);
   
   main_func_head->func = bjtu_main_camera;
   main_func_head->next = tmp_dip;
@@ -124,7 +135,15 @@ void bjtu_init_func_list(void) {
   tmp_dip->next = tmp_steering;
   
   tmp_steering->func = bjtu_main_steering;
-  tmp_steering->next = main_func_head;
+  tmp_steering->next = tmp_speed;
+  
+  tmp_speed->func = bjtu_main_speed;
+  tmp_speed->next = main_func_head;
+}
+
+void bjtu_init_key(void) {
+  key_init(KEY_S2);
+  key_init(KEY_S3);
 }
 
 void bjtu_init_led(void) {
@@ -181,6 +200,7 @@ void bjtu_init_camera(void) {
 }
 
 void bjtu_init_main(void) {
+  bjtu_init_key();
   bjtu_init_adc();
   bjtu_init_uart();
   bjtu_init_wheel();
@@ -192,6 +212,23 @@ void bjtu_init_main(void) {
   bjtu_init_func_list();
   dip_init_main();
   set_vector_handler(MAIN_PIT(_VECTORn), func_loop);
+  running_flag = 0;
+}
+
+/* ----------------- Key Function ----------------- */
+
+void bjtu_key_func(void) {
+  if (key_check(KEY_S2) == KEY_DOWN) { 
+    led_turn(LED0);
+    bjtu_set_steering_turn(TURN_LEFT, 50);
+    bjtu_turn_steering();
+    DELAY_MS(500);
+  } else if (key_check(KEY_S3) == KEY_DOWN) {
+    led_turn(LED1);
+    bjtu_set_steering_turn(TURN_RIGHT, 50);
+    bjtu_turn_steering();
+    DELAY_MS(500);
+  }
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
@@ -268,10 +305,22 @@ void bjtu_set_wheel_expect_speed_all(int8 speed) {
 /* -----------------  Steering Function ----------------- */
 
 void bjtu_set_steering_turn(uint8 direction, uint8 turn_percent) {
-  if (direction == TURN_LEFT)
+  switch (direction) {
+  case TURN_LEFT:
     steering_turn = STEERING_MIDDLE + (steering_turn_total * turn_percent)/100;
-  else
+    break;
+  case TURN_RIGHT:
     steering_turn = STEERING_MIDDLE - (steering_turn_total * turn_percent)/100;
+    break;
+  case TURN_AHEAD:
+    steering_turn = STEERING_MIDDLE;
+    break;
+  case WHEEL_STOP:
+    bjtu_set_wheel_freq_all(0);
+    break;
+  default:
+    break;
+  }
 }
   
 void bjtu_turn_steering(void) {
