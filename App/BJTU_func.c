@@ -33,6 +33,14 @@ const uint32 steering_turn_total = ((STEERING_RIGHT_MAX>STEERING_LEFT_MAX)?STEER
 static uint16 steering_turn;
 static turn_order steering_turn_order;
 
+static uint8 freq_dt_left;
+static uint8 freq_dt_right;
+static uint32 speed_dt_left;
+static uint16 speed_dt_right;
+
+static int8 speed_turn_left = 0;
+static int8 speed_turn_right = 0;;
+
 static func_list *main_func_head;
 
 /* ----------------- Main Function ----------------- */
@@ -54,21 +62,55 @@ static void bjtu_main_steering() {
 
 static void bjtu_main_speed() {
   bjtu_refresh_wheel_now_speed();
+  ///*
   if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag)
     running_flag = 1;
   if (left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD && running_flag) {
     bjtu_set_wheel_freq_all(0);
     return;
   }
-  if (left_wheel.now_speed > left_wheel.expect_speed + SPEED_TOLERANCE) {
-    bjtu_set_wheel_freq_left(left_wheel.freq - PER_FREQ);
-  } else if (left_wheel.now_speed + SPEED_TOLERANCE < left_wheel.expect_speed) {
-    bjtu_set_wheel_freq_left(left_wheel.freq + PER_FREQ);
+//*/
+  speed_dt_left = abs(left_wheel.now_speed - left_wheel.expect_speed);
+  speed_dt_right = abs(right_wheel.now_speed - right_wheel.expect_speed);
+  
+  freq_dt_left = freq_dt_right = 1;
+  
+#define ACC_SPEED 1
+  
+  if (steering_turn_order.direction == TURN_RIGHT) {
+    speed_turn_left = ACC_SPEED;
+    speed_turn_right = 0;
+  } else if (steering_turn_order.direction == TURN_RIGHT) {
+    speed_turn_left = 0;
+    speed_turn_right = ACC_SPEED;
+  } else {
+    speed_turn_left = 0;
+    speed_turn_right = 0;
   }
-  if (right_wheel.now_speed > right_wheel.expect_speed + SPEED_TOLERANCE) {
-    bjtu_set_wheel_freq_right(right_wheel.freq - PER_FREQ);
-  } else if (right_wheel.now_speed + SPEED_TOLERANCE < right_wheel.expect_speed) {
-    bjtu_set_wheel_freq_right(right_wheel.freq + PER_FREQ);
+  
+  ///*
+  if (speed_dt_left > SPEED_TOLERANCE) {
+    freq_dt_left = PER_FREQ;
+    if (speed_dt_left > SPEED_TOLERANCE_MAX)
+      freq_dt_left = PER_FREQ_MAX;
+  }
+  
+  if (speed_dt_right > SPEED_TOLERANCE) {
+    freq_dt_right = PER_FREQ;
+    if (speed_dt_right > SPEED_TOLERANCE_MAX)
+      freq_dt_right = PER_FREQ_MAX;
+  }
+//*/
+  
+  if (left_wheel.now_speed > left_wheel.expect_speed) {
+    bjtu_set_wheel_freq_left(left_wheel.freq - freq_dt_left + speed_turn_left);
+  } else if (left_wheel.now_speed < left_wheel.expect_speed) {
+    bjtu_set_wheel_freq_left(left_wheel.freq + freq_dt_left + speed_turn_left);
+  }
+  if (right_wheel.now_speed > right_wheel.expect_speed) {
+    bjtu_set_wheel_freq_right(right_wheel.freq - freq_dt_right + speed_turn_right);
+  } else if (right_wheel.now_speed < right_wheel.expect_speed) {
+    bjtu_set_wheel_freq_right(right_wheel.freq + freq_dt_right + speed_turn_right);
   }
 }
 
@@ -144,6 +186,9 @@ void bjtu_init_func_list(void) {
   
   main_func_head->func = bjtu_main_camera;
   main_func_head->next = tmp_dip;
+  
+  //main_func_head->func = bjtu_main_speed;
+  //main_func_head->next = main_func_head;
   
   tmp_dip->func = bjtu_main_dip;
   tmp_dip->next = tmp_steering;
@@ -375,7 +420,7 @@ void bjtu_print_battle_states(void) {
 
 void bjtu_print_speed_states(void) {
   printf("\n=====Speed States=====\n");
-  printf("左轮速度是%d， 右轮速度是%d\n", left_wheel.now_speed, right_wheel.now_speed);
+  printf("左轮速度是%lld， 右轮速度是%lld\n", left_wheel.now_speed, right_wheel.now_speed);
 }
 
 void bjtu_print_image(void) {

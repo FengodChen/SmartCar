@@ -33,9 +33,11 @@
 #define KEY_S3 KEY_START
 #define KEY_S2 KEY_B
 
-#define SPEED_LOWER_THRESHOLD 30
-#define SPEED_TOLERANCE 50
-#define PER_FREQ 2
+#define SPEED_LOWER_THRESHOLD 10
+#define SPEED_TOLERANCE 100
+#define SPEED_TOLERANCE_MAX 200
+#define PER_FREQ 1
+#define PER_FREQ_MAX 5
 
 // 电池信息结构体
 typedef struct battle_states {
@@ -47,8 +49,8 @@ typedef struct battle_states {
 typedef struct wheel_states {
   uint8 ahead_or_back;          // 向前转或向后转
   int8 freq;                   // 电机供电占空比
-  int32 expect_speed;           // 期望的速度
-  int32 now_speed;              // 目前的速度
+  int64 expect_speed;           // 期望的速度
+  int64 now_speed;              // 目前的速度
 } wheel_states;
 
 // 函数链表

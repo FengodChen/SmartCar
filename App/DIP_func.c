@@ -38,6 +38,8 @@ static uint64 total_right_weight;
 static int64 total_weight_dt;
 
 static turn_order tmp_turn_order;
+static uint8 max_angle;
+static uint8 flag;
 
 void dip_init_main(void) {
   dip_clear_statistic();
@@ -142,18 +144,33 @@ int32 dip_get_turn_direction(void) {
 */
 
 turn_order dip_get_turn_direction(void) {
+  max_angle = 80;
+  flag = 0;
   total_left_weight = WIDTH_WEIGHT*width_weight.left + HEIGHT_WEIGHT*height_weight.left;
   total_right_weight = WIDTH_WEIGHT*width_weight.right + HEIGHT_WEIGHT*height_weight.right;
   total_weight_dt = total_left_weight - total_right_weight;
   if (abs(total_weight_dt) < NOT_TURN_THRESHOLD) {
-    tmp_turn_order.direction = TURN_AHEAD;
-    tmp_turn_order.turn_percent = 0;
-  } else if (total_weight_dt > 0) {
+    
+    if (total_weight_dt > NOT_TURN_THRESHOLD_MIN) {
+      tmp_turn_order.direction = TURN_RIGHT;
+      tmp_turn_order.turn_percent = abs(total_weight_dt) / (NOT_TURN_THRESHOLD - NOT_TURN_THRESHOLD_MIN) * max_angle;
+    } else if (total_weight_dt < -NOT_TURN_THRESHOLD_MIN) {
+      tmp_turn_order.direction = TURN_LEFT;
+      tmp_turn_order.turn_percent = abs(total_weight_dt) / (NOT_TURN_THRESHOLD - NOT_TURN_THRESHOLD_MIN) * max_angle;
+    } else {
+      tmp_turn_order.direction = TURN_AHEAD;
+      tmp_turn_order.turn_percent = 0;
+      flag = 1;
+    }
+  }
+  if (!flag){
+  if (total_weight_dt > 0) {
     tmp_turn_order.direction = TURN_RIGHT;
-    tmp_turn_order.turn_percent = 90;
+    tmp_turn_order.turn_percent = max_angle;
   } else {
-    tmp_turn_order.direction = TURN_RIGHT;
-    tmp_turn_order.turn_percent = 90;
+    tmp_turn_order.direction = TURN_LEFT;
+    tmp_turn_order.turn_percent = max_angle;
+  }
   }
   return tmp_turn_order;
 }
@@ -165,5 +182,6 @@ void dip_print_weight(void) {
   printf("height_weight.left = %lld, ", height_weight.left);
   printf("height_weight.right = %lld\n", height_weight.right);
   printf("左边危险权重是%lld，", total_left_weight);
-  printf("右边危险权重是%lld\n", total_right_weight);
+  printf("右边危险权重是%lld, ", total_right_weight);
+  printf("DT = %lld\n", total_left_weight - total_right_weight);
 }
