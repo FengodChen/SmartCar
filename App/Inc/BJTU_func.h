@@ -33,7 +33,9 @@
 #define KEY_S3 KEY_START
 #define KEY_S2 KEY_B
 
-#define SPEED_LOWER_THRESHOLD 50
+#define SPEED_LOWER_THRESHOLD 30
+#define SPEED_TOLERANCE 50
+#define PER_FREQ 2
 
 // µç³ØĞÅÏ¢½á¹¹Ìå
 typedef struct battle_states {
@@ -44,9 +46,9 @@ typedef struct battle_states {
 // ºó³µ³µÂÖ×´Ì¬½á¹¹Ìå
 typedef struct wheel_states {
   uint8 ahead_or_back;          // ÏòÇ°×ª»òÏòºó×ª
-  uint8 freq;                   // µç»ú¹©µçÕ¼¿Õ±È
-  int16 expect_speed;           // ÆÚÍûµÄËÙ¶È
-  int16 now_speed;              // Ä¿Ç°µÄËÙ¶È
+  int8 freq;                   // µç»ú¹©µçÕ¼¿Õ±È
+  int32 expect_speed;           // ÆÚÍûµÄËÙ¶È
+  int32 now_speed;              // Ä¿Ç°µÄËÙ¶È
 } wheel_states;
 
 // º¯ÊıÁ´±í
@@ -98,9 +100,9 @@ void bjtu_init_func_list(void);                                 // ³õÊ¼»¯º¯ÊıÁĞ±
 void bjtu_key_func(void);                                       // ¸÷ÖÖ°´¼üµÄ¹¦ÄÜº¯Êı
 
 /* ¿ØÖÆºó³µ³µÂÖµÄÕ¼¿Õ±ÈÒÔ¼°Õı·´×ª */
-void bjtu_set_wheel_freq_all(uint8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È
-void bjtu_set_wheel_freq_left(uint8 freq);                      // ÉèÖÃºóÂÖ×óÂÖ×ª¶¯Õ¼¿Õ±È
-void bjtu_set_wheel_freq_right(uint8 freq);                     // ÉèÖÃºóÂÖÓÒÂÖ×ª¶¯Õ¼¿Õ±È
+void bjtu_set_wheel_freq_all(int8 freq);                       // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥×ª¶¯Õ¼¿Õ±È
+void bjtu_set_wheel_freq_left(int8 freq);                      // ÉèÖÃºóÂÖ×óÂÖ×ª¶¯Õ¼¿Õ±È
+void bjtu_set_wheel_freq_right(int8 freq);                     // ÉèÖÃºóÂÖÓÒÂÖ×ª¶¯Õ¼¿Õ±È
 
 void bjtu_set_wheel_back_all(void);                             // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥Ïòºó×ª
 void bjtu_set_wheel_back_left(void);                            // ÉèÖÃºóÂÖ×óÂÖÏòºó×ª
@@ -110,12 +112,12 @@ void bjtu_set_wheel_ahead_all(void);                            // ÉèÖÃºóÂÖÁ½¸öÂ
 void bjtu_set_wheel_ahead_left(void);                           // ÉèÖÃºóÂÖ×óÂÖÏòÇ°×ª
 void bjtu_set_wheel_ahead_right(void);                          // ÉèÖÃºóÂÖÓÒÂÖÏòÇ°×ª
 
-void bjtu_set_wheel_expect_speed_all(int8 speed);               // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥ÆÚÍûËÙ¶È
-void bjtu_set_wheel_expect_speed_left(int8 speed);              // ÉèÖÃºóÂÖ×óÂÖÆÚÍûËÙ¶È
-void bjtu_set_wheel_expect_speed_right(int8 speed);             // ÉèÖÃºóÂÖÓÒÂÖÆÚÍûËÙ¶È
+void bjtu_set_wheel_expect_speed_all(int32 speed);               // ÉèÖÃºóÂÖÁ½¸öÂÖÌ¥ÆÚÍûËÙ¶È
+void bjtu_set_wheel_expect_speed_left(int32 speed);              // ÉèÖÃºóÂÖ×óÂÖÆÚÍûËÙ¶È
+void bjtu_set_wheel_expect_speed_right(int32 speed);             // ÉèÖÃºóÂÖÓÒÂÖÆÚÍûËÙ¶È
 
 /* ¿ØÖÆ¶æ»ú·½Ïò */
-void bjtu_set_steering_turn(uint8 direction, uint8 turn_percent);       // ÉèÖÃ¶æ»ú¾ø¶Ô×ªÏòÎ»ÖÃ @args £¨¶æ»ú×ªÏò£¬Æ«×ªÎ»ÖÃ°Ù·Ö±È£©
+void bjtu_set_steering_turn(int8 direction, int8 turn_percent);          // ÉèÖÃ¶æ»ú¾ø¶Ô×ªÏòÎ»ÖÃ @args £¨¶æ»ú×ªÏò£¬Æ«×ªÎ»ÖÃ°Ù·Ö±È£©
 void bjtu_turn_steering(void);                                          // ¸ù¾İÉèÖÃºÃµÄ¶æ»ú¾ø¶Ô×ªÏòÎ»ÖÃ½øĞĞ×ªÏò
 
 /* Ë¢ĞÂ¸÷ÖÖĞÅÏ¢ */ 

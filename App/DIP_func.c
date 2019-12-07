@@ -35,6 +35,9 @@ LR_weight height_weight;
 
 static uint64 total_left_weight;
 static uint64 total_right_weight;
+static int64 total_weight_dt;
+
+static turn_order tmp_turn_order;
 
 void dip_init_main(void) {
   dip_clear_statistic();
@@ -125,7 +128,8 @@ void dip_process(uint8* img_array) {
   dip_calculate_height_weight();
 }
 
-uint8 dip_get_turn_direction(void) {  
+/*
+int32 dip_get_turn_direction(void) {  
   total_left_weight = WIDTH_WEIGHT*width_weight.left + HEIGHT_WEIGHT*height_weight.left;
   total_right_weight = WIDTH_WEIGHT*width_weight.right + HEIGHT_WEIGHT*height_weight.right;
   if (total_left_weight > total_right_weight && total_left_weight - total_right_weight > NOT_TURN_THRESHOLD)
@@ -134,6 +138,24 @@ uint8 dip_get_turn_direction(void) {
     return TURN_LEFT;
   else
     return TURN_AHEAD;
+}
+*/
+
+turn_order dip_get_turn_direction(void) {
+  total_left_weight = WIDTH_WEIGHT*width_weight.left + HEIGHT_WEIGHT*height_weight.left;
+  total_right_weight = WIDTH_WEIGHT*width_weight.right + HEIGHT_WEIGHT*height_weight.right;
+  total_weight_dt = total_left_weight - total_right_weight;
+  if (abs(total_weight_dt) < NOT_TURN_THRESHOLD) {
+    tmp_turn_order.direction = TURN_AHEAD;
+    tmp_turn_order.turn_percent = 0;
+  } else if (total_weight_dt > 0) {
+    tmp_turn_order.direction = TURN_RIGHT;
+    tmp_turn_order.turn_percent = 90;
+  } else {
+    tmp_turn_order.direction = TURN_RIGHT;
+    tmp_turn_order.turn_percent = 90;
+  }
+  return tmp_turn_order;
 }
 
 void dip_print_weight(void) {

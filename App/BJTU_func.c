@@ -31,6 +31,7 @@ int imgCount = 0;
 
 const uint32 steering_turn_total = ((STEERING_RIGHT_MAX>STEERING_LEFT_MAX)?STEERING_RIGHT_MAX:STEERING_LEFT_MAX) - STEERING_MIDDLE;
 static uint16 steering_turn;
+static turn_order steering_turn_order;
 
 static func_list *main_func_head;
 
@@ -46,7 +47,8 @@ static void bjtu_main_dip() {
 }
 
 static void bjtu_main_steering() {
-  bjtu_set_steering_turn(dip_get_turn_direction(), 90);
+  steering_turn_order = dip_get_turn_direction();
+  bjtu_set_steering_turn(steering_turn_order.direction, steering_turn_order.turn_percent);
   bjtu_turn_steering();
 }
 
@@ -54,8 +56,20 @@ static void bjtu_main_speed() {
   bjtu_refresh_wheel_now_speed();
   if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag)
     running_flag = 1;
-  if (left_wheel.now_speed < SPEED_LOWER_THRESHOLD && right_wheel.now_speed < SPEED_LOWER_THRESHOLD && running_flag)
+  if (left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD && running_flag) {
     bjtu_set_wheel_freq_all(0);
+    return;
+  }
+  if (left_wheel.now_speed > left_wheel.expect_speed + SPEED_TOLERANCE) {
+    bjtu_set_wheel_freq_left(left_wheel.freq - PER_FREQ);
+  } else if (left_wheel.now_speed + SPEED_TOLERANCE < left_wheel.expect_speed) {
+    bjtu_set_wheel_freq_left(left_wheel.freq + PER_FREQ);
+  }
+  if (right_wheel.now_speed > right_wheel.expect_speed + SPEED_TOLERANCE) {
+    bjtu_set_wheel_freq_right(right_wheel.freq - PER_FREQ);
+  } else if (right_wheel.now_speed + SPEED_TOLERANCE < right_wheel.expect_speed) {
+    bjtu_set_wheel_freq_right(right_wheel.freq + PER_FREQ);
+  }
 }
 
 void bjtu_main() {
@@ -164,6 +178,7 @@ void bjtu_init_wheel() {
   left_wheel.ahead_or_back = WHEEL_GO_AHEAD;
   right_wheel.ahead_or_back = WHEEL_GO_AHEAD;
   left_wheel.freq = right_wheel.freq = 0;
+  left_wheel.expect_speed = right_wheel.expect_speed = 0;
   ftm_pwm_init(FTM0, FTM_CH3,10*1000,0); 
   ftm_pwm_init(FTM0, FTM_CH4,10*1000,0); 
   gpio_init(PTA5, GPO, left_wheel.ahead_or_back);
@@ -233,20 +248,24 @@ void bjtu_key_func(void) {
 
 /* ----------------- Set Wheel Speed Function ----------------- */
 
-void bjtu_set_wheel_freq_left(uint8 freq) {
+void bjtu_set_wheel_freq_left(int8 freq) {
   if (freq > 100)
     freq = 100;
+  else if (freq < 0)
+    freq = 0;
   left_wheel.freq = freq;
   ftm_pwm_duty(FTM0, FTM_CH3, fixed_freq(freq, left_wheel.ahead_or_back));
 }
-void bjtu_set_wheel_freq_right(uint8 freq) {
+void bjtu_set_wheel_freq_right(int8 freq) {
   if (freq > 100)
     freq = 100;
+  else if (freq < 0)
+    freq = 0;
   right_wheel.freq = freq;
   ftm_pwm_duty(FTM0, FTM_CH4, fixed_freq(freq, right_wheel.ahead_or_back));
 }
 
-void bjtu_set_wheel_freq_all(uint8 freq) {
+void bjtu_set_wheel_freq_all(int8 freq) {
   bjtu_set_wheel_freq_left(freq);
   bjtu_set_wheel_freq_right(freq);
 }
@@ -289,22 +308,22 @@ void bjtu_set_wheel_ahead_all(void) {
 
 /* ----------------- Set Wheel Speed Function ----------------- */
 
-void bjtu_set_wheel_expect_speed_left(int8 speed) {
+void bjtu_set_wheel_expect_speed_left(int32 speed) {
   left_wheel.expect_speed = speed;
 }
 
-void bjtu_set_wheel_expect_speed_right(int8 speed) {
+void bjtu_set_wheel_expect_speed_right(int32 speed) {
   right_wheel.expect_speed = speed;
 }
 
-void bjtu_set_wheel_expect_speed_all(int8 speed) {
+void bjtu_set_wheel_expect_speed_all(int32 speed) {
   bjtu_set_wheel_expect_speed_left(speed);
   bjtu_set_wheel_expect_speed_right(speed);
 }
 
 /* -----------------  Steering Function ----------------- */
 
-void bjtu_set_steering_turn(uint8 direction, uint8 turn_percent) {
+void bjtu_set_steering_turn(int8 direction, int8 turn_percent) {
   switch (direction) {
   case TURN_LEFT:
     steering_turn = STEERING_MIDDLE + (steering_turn_total * turn_percent)/100;
