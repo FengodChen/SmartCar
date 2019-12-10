@@ -42,6 +42,7 @@ typedef struct turn_order {
 } turn_order;
 
 /* µ×²ãº¯Êı£¬½¨Òé²»ÒªÇáÒ×Ê¹ÓÃ */
+
 void dip_clear_statistic(void);                         // Í³¼ÆĞÅÏ¢¹éÁã
 void dip_clear_statistic_bool(void);                    // Í³¼ÆĞÅÏ¢boolÖµ¹éÁã
 void dip_clear_weight(void);                            // È¨ÖØĞÅÏ¢¹éÁã
@@ -51,6 +52,7 @@ void dip_clear_weight_height(void);                     // È¨ÖØ£¨¸ß¶È·½Ïò£©ĞÅÏ¢¹
 void dip_make_statistic(uint8* img_array);              // Í³¼ÆÍ¼ÏñĞÅÏ¢
 void dip_calculate_width_weight(void);                  // Í³¼Æ¿í¶È·½ÏòÉÏµÄÈ¨ÖØ
 void dip_calculate_height_weight(void);                 // Í³¼Æ¸ß¶È·½ÏòÉÏµÄÈ¨ÖØ
+
 
 /* DIP±íÃæº¯Êı */
 void dip_init_main(void);                               // DIP³õÊ¼»¯

@@ -28,16 +28,14 @@
 #define STEERING_LEFT_MAX       (1200)
 #define STEERING_RIGHT_MAX      (800)
 
-#define FUNC_PERIOD_MS          (20)
-
 #define KEY_S3 KEY_START
 #define KEY_S2 KEY_B
 
-#define SPEED_LOWER_THRESHOLD 10
-#define SPEED_TOLERANCE 100
-#define SPEED_TOLERANCE_MAX 200
-#define PER_FREQ 1
-#define PER_FREQ_MAX 5
+#define SPEED_LOWER_THRESHOLD (25)
+#define SPEED_TOLERANCE (25)
+#define SPEED_TOLERANCE_MAX (200)
+#define PER_FREQ (1)
+#define PER_FREQ_MAX (5)
 
 // 电池信息结构体
 typedef struct battle_states {
@@ -57,6 +55,7 @@ typedef struct wheel_states {
 typedef struct func_list {
   struct func_list *next;
   void (*func)();
+  uint32 need_time_ms;
 } func_list;
 
 // 舵机转向
@@ -68,6 +67,7 @@ enum {
 };
 
 /* 底层函数，建议不要轻易使用 */
+/*
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);                // 得到修正过的占空比
 void steering_end_turn(void);                                   // 中断函数，将舵机电平重新归零
 void steering_start_turn(uint16 time_us);                       // 将舵机电平置一并开始中断
@@ -75,7 +75,8 @@ void PORTA_IRQHandler(void);
 void DMA0_IRQHandler(void);
 void malloc_func_list(func_list **now);                            // 为函数列表申请空间
 //void set_func_list(func_list *now, void *func, func_list *next);   // 设置函数列表
-void func_loop(void);                                              // 执行函数列表中的函数并继续下一轮循环
+void timer(void);                                              // 计时器
+*/
 
 /* 主要函数 */
 void bjtu_init_main(void);                                              // 初始化全部所需要的硬件
@@ -97,6 +98,7 @@ void bjtu_init_oled(void);                                      // 初始化OLED
 void bjtu_init_steering(void);                                  // 初始化舵机
 void bjtu_init_camera(void);                                    // 初始化摄像头
 void bjtu_init_func_list(void);                                 // 初始化函数列表
+void bjtu_init_timer(void);                                     // 初始化计时器
 
 /* 反馈按键 */
 void bjtu_key_func(void);                                       // 各种按键的功能函数

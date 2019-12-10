@@ -21,6 +21,10 @@
 static wheel_states left_wheel;
 static wheel_states right_wheel;
 
+static uint32 time_ms;
+static uint32 time_needed;
+static uint8 time_arrived;
+
 static battle_states bs;
 
 static uint8 running_flag;
@@ -35,11 +39,8 @@ static turn_order steering_turn_order;
 
 static uint8 freq_dt_left;
 static uint8 freq_dt_right;
-static uint32 speed_dt_left;
-static uint16 speed_dt_right;
-
-static int8 speed_turn_left = 0;
-static int8 speed_turn_right = 0;;
+static int64 speed_dt_left;
+static int64 speed_dt_right;
 
 static func_list *main_func_head;
 
@@ -62,63 +63,42 @@ static void bjtu_main_steering() {
 
 static void bjtu_main_speed() {
   bjtu_refresh_wheel_now_speed();
-  ///*
-  if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag)
-    running_flag = 1;
-  if (left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD && running_flag) {
+
+  if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag) {
+      running_flag = 1;
+  }
+  if ((left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD) && running_flag) {
     bjtu_set_wheel_freq_all(0);
+    //running_flag = 0;
     return;
   }
-//*/
-  speed_dt_left = abs(left_wheel.now_speed - left_wheel.expect_speed);
-  speed_dt_right = abs(right_wheel.now_speed - right_wheel.expect_speed);
-  
-  freq_dt_left = freq_dt_right = 1;
-  
-#define ACC_SPEED 1
-  
-  if (steering_turn_order.direction == TURN_RIGHT) {
-    speed_turn_left = ACC_SPEED;
-    speed_turn_right = 0;
-  } else if (steering_turn_order.direction == TURN_RIGHT) {
-    speed_turn_left = 0;
-    speed_turn_right = ACC_SPEED;
-  } else {
-    speed_turn_left = 0;
-    speed_turn_right = 0;
-  }
-  
-  ///*
+
+  speed_dt_left = left_wheel.now_speed - left_wheel.expect_speed;
+  speed_dt_right = right_wheel.now_speed - right_wheel.expect_speed;
   if (speed_dt_left > SPEED_TOLERANCE) {
-    freq_dt_left = PER_FREQ;
-    if (speed_dt_left > SPEED_TOLERANCE_MAX)
-      freq_dt_left = PER_FREQ_MAX;
+    left_wheel.freq -= 1;
+    bjtu_set_wheel_freq_left(left_wheel.freq);
+  } else if (speed_dt_left < -SPEED_TOLERANCE) {
+    left_wheel.freq += 1;
+    bjtu_set_wheel_freq_left(left_wheel.freq);
   }
-  
   if (speed_dt_right > SPEED_TOLERANCE) {
-    freq_dt_right = PER_FREQ;
-    if (speed_dt_right > SPEED_TOLERANCE_MAX)
-      freq_dt_right = PER_FREQ_MAX;
-  }
-//*/
-  
-  if (left_wheel.now_speed > left_wheel.expect_speed) {
-    bjtu_set_wheel_freq_left(left_wheel.freq - freq_dt_left + speed_turn_left);
-  } else if (left_wheel.now_speed < left_wheel.expect_speed) {
-    bjtu_set_wheel_freq_left(left_wheel.freq + freq_dt_left + speed_turn_left);
-  }
-  if (right_wheel.now_speed > right_wheel.expect_speed) {
-    bjtu_set_wheel_freq_right(right_wheel.freq - freq_dt_right + speed_turn_right);
-  } else if (right_wheel.now_speed < right_wheel.expect_speed) {
-    bjtu_set_wheel_freq_right(right_wheel.freq + freq_dt_right + speed_turn_right);
+    right_wheel.freq -= 1;
+    bjtu_set_wheel_freq_right(right_wheel.freq);
+  } else if (speed_dt_right < -SPEED_TOLERANCE) {
+    right_wheel.freq += 1;
+    bjtu_set_wheel_freq_right(right_wheel.freq);
   }
 }
 
 void bjtu_main() {
-  main_func_head->func();
-  main_func_head = main_func_head->next;
-  //pit_init_ms(MAIN_PIT(), FUNC_PERIOD_MS);
-  //enable_irq (MAIN_PIT(_IRQn));
+  if (time_arrived) {
+    time_arrived = 0;
+    time_ms = 0;
+    time_needed = main_func_head->need_time_ms;
+    main_func_head->func();
+    main_func_head = main_func_head->next;
+  }
 }
 
 /* ----------------- !Inner Function! ----------------- */
@@ -161,16 +141,12 @@ void malloc_func_list(func_list **now) {
   (*now) = (func_list*)malloc(sizeof(func_list));
 }
 
-void func_loop(void) {
-  //main_func_head->func();
-  printf("\nHello, world!\n");
-  bjtu_main_camera();
-  printf("\nHello, world2!\n");
-  
-  main_func_head = main_func_head->next;
-  
+void timer(void) {
+  ++time_ms;
+  if (time_ms == time_needed)
+    time_arrived = 1;
   PIT_Flag_Clear(MAIN_PIT());
-  pit_init_ms(MAIN_PIT(), FUNC_PERIOD_MS);
+  pit_init_ms(MAIN_PIT(), 1);
   enable_irq (MAIN_PIT(_IRQn));
 }
 
@@ -185,18 +161,19 @@ void bjtu_init_func_list(void) {
   malloc_func_list(&tmp_speed);
   
   main_func_head->func = bjtu_main_camera;
+  main_func_head->need_time_ms = 5;
   main_func_head->next = tmp_dip;
   
-  //main_func_head->func = bjtu_main_speed;
-  //main_func_head->next = main_func_head;
-  
   tmp_dip->func = bjtu_main_dip;
+  tmp_dip->need_time_ms = 5;
   tmp_dip->next = tmp_steering;
   
   tmp_steering->func = bjtu_main_steering;
+  tmp_steering->need_time_ms = 5;
   tmp_steering->next = tmp_speed;
   
   tmp_speed->func = bjtu_main_speed;
+  tmp_speed->need_time_ms = 5;
   tmp_speed->next = main_func_head;
 }
 
@@ -228,6 +205,7 @@ void bjtu_init_wheel() {
   ftm_pwm_init(FTM0, FTM_CH4,10*1000,0); 
   gpio_init(PTA5, GPO, left_wheel.ahead_or_back);
   gpio_init(PTA8, GPO, right_wheel.ahead_or_back);
+  running_flag = 0;
 }
 
 void bjtu_init_encoder(void) {
@@ -259,6 +237,15 @@ void bjtu_init_camera(void) {
   set_vector_handler(DMA0_VECTORn , DMA0_IRQHandler);     //设置 DMA0 的中断服务函数为 PORTA_IRQHandler
 }
 
+void bjtu_init_timer(void) {
+  time_ms = 0;
+  time_needed = 50;
+  time_arrived = 0;
+  set_vector_handler(MAIN_PIT(_VECTORn), timer);
+  pit_init_ms(MAIN_PIT(), 1);
+  enable_irq (MAIN_PIT(_IRQn));
+}
+
 void bjtu_init_main(void) {
   bjtu_init_key();
   bjtu_init_adc();
@@ -270,9 +257,8 @@ void bjtu_init_main(void) {
   bjtu_init_led();
   bjtu_init_camera();
   bjtu_init_func_list();
+  bjtu_init_timer();
   dip_init_main();
-  set_vector_handler(MAIN_PIT(_VECTORn), func_loop);
-  running_flag = 0;
 }
 
 /* ----------------- Key Function ----------------- */
