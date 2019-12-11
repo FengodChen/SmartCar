@@ -423,7 +423,7 @@ void OLED_Img_gray_Z(Site_t site, Size_t size, uint8 *img, Size_t imgsize)
     
     uint8 i,n;  
 	for(i=0;i<8;i++)for(n=0;n<128;n++)OLED_GRAM[n][i]=0X00;  //ÇåÁã
-    
+    /*
     sprintf(dis_buff1,"img");//
 	OLED_ShowString(90,0,dis_buff1);	
 	sprintf(dis_buff1,"%d ",imgCount);//
@@ -431,6 +431,7 @@ void OLED_Img_gray_Z(Site_t site, Size_t size, uint8 *img, Size_t imgsize)
  
 	sprintf(dis_buff1,"P4");//
 	OLED_ShowString(90,48,dis_buff1);
+*/
    
 
     for(y = 0; y < size.H; y++)

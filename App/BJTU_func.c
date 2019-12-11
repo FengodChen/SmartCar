@@ -27,20 +27,17 @@ static uint8 time_arrived;
 
 static battle_states bs;
 
-static uint8 running_flag;
+static uint8 is_running;
 
 static uint8 imgbuff[CAMERA_SIZE];
 static uint8 img[CAMERA_H*CAMERA_W];
-int imgCount = 0;
 
 const uint32 steering_turn_total = ((STEERING_RIGHT_MAX>STEERING_LEFT_MAX)?STEERING_RIGHT_MAX:STEERING_LEFT_MAX) - STEERING_MIDDLE;
 static uint16 steering_turn;
 static turn_order steering_turn_order;
 
-static uint8 freq_dt_left;
-static uint8 freq_dt_right;
-static int64 speed_dt_left;
-static int64 speed_dt_right;
+static int64 delta_speed_left;
+static int64 delta_speed_right;
 
 static func_list *main_func_head;
 
@@ -56,6 +53,7 @@ static void bjtu_main_dip() {
 }
 
 static void bjtu_main_steering() {
+  //bjtu_key_func();
   steering_turn_order = dip_get_turn_direction();
   bjtu_set_steering_turn(steering_turn_order.direction, steering_turn_order.turn_percent);
   bjtu_turn_steering();
@@ -63,31 +61,39 @@ static void bjtu_main_steering() {
 
 static void bjtu_main_speed() {
   bjtu_refresh_wheel_now_speed();
-
-  if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !running_flag) {
-      running_flag = 1;
+  bjtu_print_speed_states();
+  if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !is_running) {
+      is_running = 1;
   }
-  if ((left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD) && running_flag) {
+  if ((left_wheel.now_speed < SPEED_LOWER_THRESHOLD || right_wheel.now_speed < SPEED_LOWER_THRESHOLD) && is_running) {
     bjtu_set_wheel_freq_all(0);
-    //running_flag = 0;
     return;
   }
-
-  speed_dt_left = left_wheel.now_speed - left_wheel.expect_speed;
-  speed_dt_right = right_wheel.now_speed - right_wheel.expect_speed;
-  if (speed_dt_left > SPEED_TOLERANCE) {
-    left_wheel.freq -= 1;
-    bjtu_set_wheel_freq_left(left_wheel.freq);
-  } else if (speed_dt_left < -SPEED_TOLERANCE) {
-    left_wheel.freq += 1;
-    bjtu_set_wheel_freq_left(left_wheel.freq);
-  }
-  if (speed_dt_right > SPEED_TOLERANCE) {
-    right_wheel.freq -= 1;
-    bjtu_set_wheel_freq_right(right_wheel.freq);
-  } else if (speed_dt_right < -SPEED_TOLERANCE) {
-    right_wheel.freq += 1;
-    bjtu_set_wheel_freq_right(right_wheel.freq);
+  if (is_running){
+    delta_speed_left = left_wheel.now_speed - left_wheel.expect_speed;
+    delta_speed_right = right_wheel.now_speed - right_wheel.expect_speed;
+    if (delta_speed_left > SPEED_TOLERANCE) {
+      left_wheel.freq -= 1;
+      if (left_wheel.freq < 0)
+        left_wheel.freq = 0;
+      bjtu_set_wheel_freq_left(left_wheel.freq);
+    } else if (delta_speed_left < -SPEED_TOLERANCE) {
+      left_wheel.freq += 1;
+      if (left_wheel.freq > 100)
+        left_wheel.freq = 100;
+      bjtu_set_wheel_freq_left(left_wheel.freq);
+    }
+    if (delta_speed_right > SPEED_TOLERANCE) {
+      right_wheel.freq -= 1;
+      if (right_wheel.freq < 0)
+        right_wheel.freq = 0;
+      bjtu_set_wheel_freq_right(right_wheel.freq);
+    } else if (delta_speed_right < -SPEED_TOLERANCE) {
+      right_wheel.freq += 1;
+      if (right_wheel.freq > 100)
+        right_wheel.freq = 100;
+      bjtu_set_wheel_freq_right(right_wheel.freq);
+    }
   }
 }
 
@@ -205,7 +211,7 @@ void bjtu_init_wheel() {
   ftm_pwm_init(FTM0, FTM_CH4,10*1000,0); 
   gpio_init(PTA5, GPO, left_wheel.ahead_or_back);
   gpio_init(PTA8, GPO, right_wheel.ahead_or_back);
-  running_flag = 0;
+  is_running = 0;
 }
 
 void bjtu_init_encoder(void) {
@@ -233,8 +239,8 @@ void bjtu_init_steering(void) {
 
 void bjtu_init_camera(void) {
   camera_init(imgbuff);
-  set_vector_handler(PORTA_VECTORn , PORTA_IRQHandler);   //设置 PORTA 的中断服务函数为 PORTA_IRQHandler
-  set_vector_handler(DMA0_VECTORn , DMA0_IRQHandler);     //设置 DMA0 的中断服务函数为 PORTA_IRQHandler
+  set_vector_handler(PORTA_VECTORn , PORTA_IRQHandler);
+  set_vector_handler(DMA0_VECTORn , DMA0_IRQHandler);
 }
 
 void bjtu_init_timer(void) {
@@ -262,18 +268,24 @@ void bjtu_init_main(void) {
 }
 
 /* ----------------- Key Function ----------------- */
-
+int8 i = 0;
 void bjtu_key_func(void) {
   if (key_check(KEY_S2) == KEY_DOWN) { 
     led_turn(LED0);
-    bjtu_set_steering_turn(TURN_LEFT, 50);
+    if (i > 80)
+      i = 80;
+    bjtu_set_steering_turn(TURN_LEFT, i);
     bjtu_turn_steering();
-    DELAY_MS(500);
+    //DELAY_MS(2);
+    i+=2;
   } else if (key_check(KEY_S3) == KEY_DOWN) {
+    if (i < 0)
+      i = 0;
     led_turn(LED1);
-    bjtu_set_steering_turn(TURN_RIGHT, 50);
+    bjtu_set_steering_turn(TURN_LEFT, i);
     bjtu_turn_steering();
-    DELAY_MS(500);
+    //DELAY_MS();
+    i-=2;
   }
 }
 
@@ -355,6 +367,10 @@ void bjtu_set_wheel_expect_speed_all(int32 speed) {
 /* -----------------  Steering Function ----------------- */
 
 void bjtu_set_steering_turn(int8 direction, int8 turn_percent) {
+  if (turn_percent > 80)
+    turn_percent = 80;
+  else if (turn_percent < 1)
+    turn_percent = 1;
   switch (direction) {
   case TURN_LEFT:
     steering_turn = STEERING_MIDDLE + (steering_turn_total * turn_percent)/100;
@@ -394,7 +410,7 @@ void bjtu_refresh_wheel_now_speed(void) {
 void bjtu_refresh_camera(void) {
   camera_get_img();
   img_extract(img, imgbuff, CAMERA_SIZE);
-  ++imgCount;
+  //++imgCount;
 }
 
 /* ----------------- Printf Function ----------------- */

@@ -32,10 +32,7 @@
 #define KEY_S2 KEY_B
 
 #define SPEED_LOWER_THRESHOLD (25)
-#define SPEED_TOLERANCE (25)
-#define SPEED_TOLERANCE_MAX (200)
-#define PER_FREQ (1)
-#define PER_FREQ_MAX (5)
+#define SPEED_TOLERANCE (10)
 
 // µç³ØĞÅÏ¢½á¹¹Ìå
 typedef struct battle_states {
@@ -67,16 +64,15 @@ enum {
 };
 
 /* µ×²ãº¯Êı£¬½¨Òé²»ÒªÇáÒ×Ê¹ÓÃ */
-/*
+
 uint8 fixed_freq(uint8 freq, uint8 gpio_out_vol);                // µÃµ½ĞŞÕı¹ıµÄÕ¼¿Õ±È
 void steering_end_turn(void);                                   // ÖĞ¶Ïº¯Êı£¬½«¶æ»úµçÆ½ÖØĞÂ¹éÁã
 void steering_start_turn(uint16 time_us);                       // ½«¶æ»úµçÆ½ÖÃÒ»²¢¿ªÊ¼ÖĞ¶Ï
 void PORTA_IRQHandler(void);
 void DMA0_IRQHandler(void);
-void malloc_func_list(func_list **now);                            // Îªº¯ÊıÁĞ±íÉêÇë¿Õ¼ä
-//void set_func_list(func_list *now, void *func, func_list *next);   // ÉèÖÃº¯ÊıÁĞ±í
+void malloc_func_list(func_list **now);                        // Îªº¯ÊıÁĞ±íÉêÇë¿Õ¼ä
 void timer(void);                                              // ¼ÆÊ±Æ÷
-*/
+
 
 /* Ö÷Òªº¯Êı */
 void bjtu_init_main(void);                                              // ³õÊ¼»¯È«²¿ËùĞèÒªµÄÓ²¼ş
@@ -136,6 +132,9 @@ void bjtu_print_image(void);                                    // Í¨¹ıprintfÊä³
 
 /* OLEDÏÔÊ¾ */
 void bjtu_oled_show_camera(void);                               // OLEDÏÔÊ¾ÒÑ¾­´ÓÏà»ú»ñÈ¡µÄÊıÁĞµÄÍ¼Ïñ
+
+/* ÏàÓ¦Key¼ü */
+void bjtu_key_func(void);                                       // ÏàÓ¦Key¼ü
 
 /* ÓÃÓÚ¸÷ÖÖDebug */
 void bjtu_debug_1(void);

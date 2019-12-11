@@ -21,8 +21,8 @@
 #include "BJTU_func.h"
 #include "math.h"
 
-#define IMG_H CAMERA_H
-#define IMG_W CAMERA_W
+#define IMG_H CAMERA_H          //60
+#define IMG_W CAMERA_W          //80
 
 #define LOWER_THRESHOLD 5
 #define NOT_TURN_THRESHOLD 10000
