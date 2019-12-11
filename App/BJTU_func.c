@@ -53,7 +53,6 @@ static void bjtu_main_dip() {
 }
 
 static void bjtu_main_steering() {
-  //bjtu_key_func();
   steering_turn_order = dip_get_turn_direction();
   bjtu_set_steering_turn(steering_turn_order.direction, steering_turn_order.turn_percent);
   bjtu_turn_steering();
@@ -61,7 +60,6 @@ static void bjtu_main_steering() {
 
 static void bjtu_main_speed() {
   bjtu_refresh_wheel_now_speed();
-  bjtu_print_speed_states();
   if (left_wheel.now_speed > SPEED_LOWER_THRESHOLD && right_wheel.now_speed > SPEED_LOWER_THRESHOLD && !is_running) {
       is_running = 1;
   }
@@ -186,6 +184,10 @@ void bjtu_init_func_list(void) {
 void bjtu_init_key(void) {
   key_init(KEY_S2);
   key_init(KEY_S3);
+  key_init(KEY_U);
+  key_init(KEY_D);
+  key_init(KEY_L);
+  key_init(KEY_R);
 }
 
 void bjtu_init_led(void) {
@@ -268,25 +270,44 @@ void bjtu_init_main(void) {
 }
 
 /* ----------------- Key Function ----------------- */
-int8 i = 0;
+#if IMG_LEARN_DEBUG
+char* road_list[] = {"L", "R", "GO" , "STOP", "loopL", "loopR"};
+const uint8 road_ptr_max = 5;
+const uint8 road_ptr_min = 0;
+uint8 road_ptr = 0;
+char* road_buff;
+#endif
+
 void bjtu_key_func(void) {
+#if IMG_LEARN_DEBUG
   if (key_check(KEY_S2) == KEY_DOWN) { 
     led_turn(LED0);
-    if (i > 80)
-      i = 80;
-    bjtu_set_steering_turn(TURN_LEFT, i);
-    bjtu_turn_steering();
-    //DELAY_MS(2);
-    i+=2;
+    bjtu_print_image();
   } else if (key_check(KEY_S3) == KEY_DOWN) {
-    if (i < 0)
-      i = 0;
     led_turn(LED1);
-    bjtu_set_steering_turn(TURN_LEFT, i);
-    bjtu_turn_steering();
-    //DELAY_MS();
-    i-=2;
+    //bjtu_print_image();
+    if (road_ptr == road_ptr_max)
+      road_ptr = road_ptr_min;
+    else
+      ++road_ptr;
+    road_buff = road_list[road_ptr];
+    DELAY_MS(100);
+  } else if (key_check(KEY_L) == KEY_DOWN) {
+    if (road_ptr == road_ptr_min)
+      road_ptr = road_ptr_max;
+    else
+      --road_ptr;
+    road_buff = road_list[road_ptr];
+    DELAY_MS(100);
+  } else if (key_check(KEY_R) == KEY_DOWN) {
+    if (road_ptr == road_ptr_max)
+      road_ptr = road_ptr_min;
+    else
+      ++road_ptr;
+    road_buff = road_list[road_ptr];
+    DELAY_MS(100);
   }
+#endif
 }
 
 /* ----------------- Set Wheel Speed Function ----------------- */
@@ -410,7 +431,6 @@ void bjtu_refresh_wheel_now_speed(void) {
 void bjtu_refresh_camera(void) {
   camera_get_img();
   img_extract(img, imgbuff, CAMERA_SIZE);
-  //++imgCount;
 }
 
 /* ----------------- Printf Function ----------------- */
@@ -426,19 +446,23 @@ void bjtu_print_speed_states(void) {
 }
 
 void bjtu_print_image(void) {
-  int half = IMG_W/2 - 1;
+#if IMG_LEARN_DEBUG
+  printf("<%s>\n", road_buff);
+#else
   printf("\n=====Image States=====\n");
+#endif
   for (int i = 0; i < IMG_H; ++i) {
     for (int j = 0; j < IMG_W; ++j) {
       if (img[i*IMG_W + j] == 0)
         printf("0");
       else
         printf("1");
-      if (j == half)
-        printf("-");
     }
-    printf("!\n");
+    printf("\n");
   }
+#if IMG_LEARN_DEBUG
+  printf("</%s>\n", road_buff);
+#endif
 }
 
 /* ----------------- OLED Function ----------------- */
