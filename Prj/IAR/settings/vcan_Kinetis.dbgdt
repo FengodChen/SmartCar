@@ -1044,7 +1044,7 @@
                 <expressions>
                     <item>left_wheel</item>
                     <item>right_wheel</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
