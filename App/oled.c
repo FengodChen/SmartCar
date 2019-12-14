@@ -436,6 +436,8 @@ void OLED_Img_gray_Z(Site_t site, Size_t size, uint8 *img, Size_t imgsize)
     sprintf(dis_buff1,"%s ", road_buff);//
     OLED_ShowString(90,0,dis_buff1);
 #endif
+    sprintf(dis_buff1,"%s ", willing_buff);//
+    OLED_ShowString(90,15,dis_buff1);
    
 
     for(y = 0; y < size.H; y++)

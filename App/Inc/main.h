@@ -18,7 +18,7 @@ void show_pic_on_oled(void);//在OLED上显示图像
 extern int TimeUsed;
 extern int imgCount;//帧数累计标志
 extern char* road_buff;
-extern char* a;
+extern char* willing_buff;
 extern int Speed;//保存速度的变量
 extern int Speed2;//保存速度的变量
 #endif  

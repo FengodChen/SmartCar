@@ -7140,6 +7140,9 @@
         <file>
             <name>$PROJ_DIR$\..\..\App\Inc\PORT_cfg.h</name>
         </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\App\weight_func.c</name>
+        </file>
     </group>
     <group>
         <name>Board</name>

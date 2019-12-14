@@ -5195,7 +5195,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state>###Unitialized###</state>
+                    <state>vcan_Kinetis_import_lib.o</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>
@@ -6309,6 +6309,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\App\Inc\PORT_cfg.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\App\weight_func.c</name>
         </file>
     </group>
     <group>

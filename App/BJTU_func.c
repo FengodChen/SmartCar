@@ -41,6 +41,7 @@ static int64 delta_speed_right;
 
 static func_list *main_func_head;
 
+uint8 imgAns;
 /* ----------------- Main Function ----------------- */
 
 static void bjtu_main_camera() {
@@ -48,8 +49,13 @@ static void bjtu_main_camera() {
   bjtu_oled_show_camera();
 }
 
+char* road_list[] = {"L", "R", "GO" , "STOP", "loopL", "loopR"};
+char* willing_buff;
+
 static void bjtu_main_dip() {
   dip_process(img);
+  imgAns = weight_get_ans(img);
+  willing_buff = road_list[imgAns];
 }
 
 static void bjtu_main_steering() {
@@ -271,7 +277,7 @@ void bjtu_init_main(void) {
 
 /* ----------------- Key Function ----------------- */
 #if IMG_LEARN_DEBUG
-char* road_list[] = {"L", "R", "GO" , "STOP", "loopL", "loopR"};
+//char* road_list[] = {"L", "R", "GO" , "STOP", "loopL", "loopR"};
 const uint8 road_ptr_max = 5;
 const uint8 road_ptr_min = 0;
 uint8 road_ptr = 0;

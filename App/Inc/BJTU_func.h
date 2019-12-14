@@ -20,6 +20,7 @@
 #include "include.h"
 #include "stdlib.h"
 #include "DIP_func.h"
+#include "weight_func.h"
 
 #define WHEEL_GO_AHEAD  (0)
 #define WHEEL_GO_BACK   (1)

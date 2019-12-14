@@ -16,7 +16,6 @@
 #include "DIP_func.h"
 
 const unsigned int img_width_middle = IMG_W / 2;
-//const unsigned int img_height_middle = IMG_H / 2;
 
 unsigned int img_w_statistic[IMG_W];             // 图像宽度方向上的统计
 unsigned int img_h_statistic_L[IMG_H];           // 图像高度方向（左边）上的统计
