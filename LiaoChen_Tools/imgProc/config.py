@@ -1,7 +1,23 @@
-#! /usr/bin/python3
+classList = ['L', 'R', 'GO', 'STOP']
+imgLogPath = "./log_file/log.txt"
+weightLoadPath = "./net_data/best.tkl"
+weightSavePath = "./net_data/better.tkl"
 
-'''
-Copyright(C) 2019 Liao Chen
+cHeadPath = './c_file/weight_func.h'
+cSrcPath = './c_file/weight_func.c'
+cHeadName = 'WEIGHT_FUNC_'
+
+img_height = 60
+img_weight = 80
+
+array1_branchNum = 10
+dnaNum = 10
+
+dataType = 'float'
+
+mutationRate = 0.00001
+
+licenseStr = '''Copyright(C) 2019 Liao Chen
 @School Beijing Jiaotong University
 @ID 17211401
 
@@ -20,32 +36,4 @@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
-
-import imgFunc
-import config
-
-# [Config]
-classList = config.classList
-imgPath = config.imgLogPath
-loadPath = config.weightLoadPath
-savePath = config.weightSavePath
-branchNum = config.array1_branchNum
-DNANum = config.dnaNum
-mutationRate = config.mutationRate
-
-# [Main Function]
-ga_main = imgFunc.GA_Main(branchNum, DNANum, imgPath, classList)
-ga_main.load(loadPath)
-minLoss = min(ga_main.getLoss())
-
-while (True):
-    ga_main.train(50, mutationRate)
-    if (minLoss > min(ga_main.getLoss())):
-        ga_main.save(savePath)
-        loadPath = savePath
-        minLoss = min(ga_main.getLoss())
-        print("Great! Saved Net!")
-    else:
-        ga_main.load(loadPath)
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'''
