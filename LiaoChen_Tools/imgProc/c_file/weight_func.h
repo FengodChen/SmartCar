@@ -24,6 +24,9 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 #ifndef WEIGHT_FUNC_
 #define WEIGHT_FUNC_
 
+#include "include.h"
+#include "BJTU_func.h"
+
 #define ARRAY1_NUM (10)
 #define ARRAY1_H (60)
 #define ARRAY1_W (80)
@@ -656,5 +659,10 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 {-2.3075330964933225, -4161.704760681479, -0.3392570989430628, +0.14559747958674818},\
 {+0.20987609884684436, +0.04532176059168828, -0.3279911073545485, -0.047887966362673555}\
 }
+
+double weight_mul_sum(const uint8 *img, const float array1_n[][ARRAY1_W], const uint8 H, const uint8 W);
+void weight_get_mesneArray(const uint8 *img);
+void weight_get_finalArray();
+uint8 weight_get_ans(const uint8 *img);
 
 #endif

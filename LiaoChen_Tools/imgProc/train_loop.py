@@ -39,6 +39,7 @@ mutationRate = config.mutationRate
 ga_main = imgFunc.GA_Main(branchNum, DNANum, imgPath, classList)
 ga_main.load(loadPath)
 minLoss = min(ga_main.getLoss())
+#minLoss = 1000
 
 while (True):
     ga_main.train(50, mutationRate)

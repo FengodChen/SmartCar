@@ -1,7 +1,5 @@
 classList = ['L', 'R', 'GO', 'STOP']
 imgLogPath = "./log_file/log.txt"
-weightLoadPath = "./net_data/best.tkl"
-weightSavePath = "./net_data/better.tkl"
 
 cHeadPath = './c_file/weight_func.h'
 cSrcPath = './c_file/weight_func.c'
@@ -13,9 +11,12 @@ img_weight = 80
 array1_branchNum = 10
 dnaNum = 10
 
+weightLoadPath = "./net_data/best_{}_{}.tkl".format(array1_branchNum, dnaNum)
+weightSavePath = "./net_data/better_{}_{}.tkl".format(array1_branchNum, dnaNum)
+
 dataType = 'float'
 
-mutationRate = 0.00001
+mutationRate = 0.0001
 
 licenseStr = '''Copyright(C) 2019 Liao Chen
 @School Beijing Jiaotong University

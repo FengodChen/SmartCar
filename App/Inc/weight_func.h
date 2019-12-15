@@ -25,15 +25,11 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 #define WEIGHT_FUNC_
 
 #include "include.h"
-//#include "DIP_func.h"
 #include "BJTU_func.h"
 
 #define ARRAY1_NUM (10)
 #define ARRAY1_H (60)
 #define ARRAY1_W (80)
-
-//#define IMG_W ARRAY1_W
-//#define IMG_H ARRAY1_H
 
 #define ARRAY2_H (10)
 #define ARRAY2_W (4)

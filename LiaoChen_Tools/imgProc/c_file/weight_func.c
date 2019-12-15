@@ -22,39 +22,29 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 */
 
 
+
 #include "weight_func.h"
 
-float array1[ARRAY1_NUM][ARRAY1_H][ARRAY1_W] = ARRAY1;
-float array2[ARRAY2_H][ARRAY2_W] = ARRAY2;
+const float array1[ARRAY1_NUM][ARRAY1_H][ARRAY1_W] = ARRAY1;
+const float array2[ARRAY2_H][ARRAY2_W] = ARRAY2;
 
-#define uint8 unsigned short
-#define int64 long long int
-#define IMG_H ARRAY1_H
-#define IMG_W ARRAY1_W
 #define CLASS_NUM ARRAY2_W
 
-uint8 img2D[IMG_H][IMG_W];
 double mesneArray[ARRAY1_NUM];
 double ansArray[CLASS_NUM];
 
-void weight_init(uint8* img) {
-    int ptr = 0;
-    for (int i = 0; i < IMG_H; ++i)
-        for (int j = 0; i < IMG_W; ++j)
-            img2D[i][j] = img[ptr++];
-}
-
-int64 weight_mul_sum(uint8 img2D[][IMG_W], float array1_n[][ARRAY1_W], uint8 H, uint8 W) {
+double weight_mul_sum(const uint8 *img, const float array1_n[][ARRAY1_W], const uint8 H, const uint8 W) {
     double sum = 0;
+    uint32 ptr = 0;
     for (int i = 0; i < H; ++i)
         for (int j = 0; j < W; ++j)
-            sum += img2D[i][j] * array1_n[i][j];
+            sum += img[ptr++] * array1_n[i][j];
     return sum;
 }
 
-void weight_get_mesneArray() {
+void weight_get_mesneArray(const uint8 *img) {
     for (int i = 0; i < ARRAY1_NUM; ++i)
-        mesneArray[i] = weight_mul_sum(img2D, array1[i], IMG_H, IMG_W);
+        mesneArray[i] = weight_mul_sum(img, array1[i], IMG_H, IMG_W);
 }
 
 void weight_get_finalArray() {
@@ -68,8 +58,8 @@ void weight_get_finalArray() {
     }
 }
 
-uint8 weight_get_ans() {
-    weight_get_mesneArray();
+uint8 weight_get_ans(const uint8 *img) {
+    weight_get_mesneArray(img);
     weight_get_finalArray();
     double max = -5000;
     uint8 max_ptr = 0;
